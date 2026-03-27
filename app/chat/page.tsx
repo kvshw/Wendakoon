@@ -26,43 +26,87 @@ const categories = [
 
 const responses: Record<string, { text: string; followUps?: string[] }> = {
   me: {
-    text: "I'm Kavishwa Wendakoon \u2014 a Doctoral Researcher at the University of Oulu, Finland, and a former software engineer with 3+ years building national-scale systems in Sri Lanka.\n\nI did my Bachelor's in Software Engineering at NSBM University, then my Master's at the University of Oulu. Now I'm part of the Finnish Software Engineering Doctoral Pilot Program, researching secure AI for pediatric brain health.\n\nI care about what happens when AI meets the most vulnerable patients \u2014 children whose data demands the strongest protections.",
+    text: "I'm Kavishwa Wendakoon — a software engineer and PhD researcher at **M3S, University of Oulu**. My work sits at the intersection of software engineering, AI, health technology, and adaptive systems. I enjoy turning research ideas into practical tools, especially systems that are useful, trustworthy, and designed for real people.",
     followUps: ["What's your research about?", "Tell me about your industry experience", "Where are you based?"],
   },
   projects: {
-    text: "Here are some highlights from my work:\n\n**SLRCMS** \u2014 Readmission Case Management System for Sri Lanka. Won Merit at the National ICT Awards NBQSA 2020.\n\n**E-Passport System** \u2014 Built the frontend for the International Organization for Migration of Sri Lanka using React and TypeScript.\n\n**Language Integration** \u2014 Created a language model integrating Sinhala and Tamil into Sri Lankan Government websites.\n\n**Medical Web App** \u2014 AI-powered doctor-patient management system (B.Sc. thesis).\n\n**Raptor Finance** \u2014 Cryptocurrency token on the Binance Smart Chain.",
+    text: "I've worked on projects across health tech, AI, analytics, and full-stack software engineering.\n\nMy work includes **MentalEEG**, a real-time mental workload monitoring platform, research on **runtime governance for self-adaptive AI** in clinical decision support, and software solutions involving dashboards, mobile apps, backend systems, and intelligent automation.\n\nI'm especially interested in projects where strong engineering meets meaningful impact.",
     followUps: ["Tell me more about SLRCMS", "What tech stack do you use?", "View full portfolio"],
   },
   skills: {
-    text: "**Programming:** JavaScript, TypeScript, Python, Java, PHP, Kotlin, Solidity\n\n**Web & Mobile:** React, Next.js, Node.js, Express, Flutter, HTML5/CSS3\n\n**Research:** Trustworthy AI, Generative AI, Federated Learning, Privacy-Preserving ML, mHealth\n\n**Tools:** Docker, Kubernetes, Git, Linux, SQL, RESTful APIs\n\n**Professional:** Team Leadership, Public Speaking, Data Visualization (Power BI), Critical Thinking",
+    text: "My core strengths are **full-stack development**, **AI-integrated software**, **research-driven system design**, and **analytical dashboards**.\n\nI work with technologies such as React, Next.js, Flutter, Flask, Node.js, Supabase, PostgreSQL, Python, TypeScript, and OpenAI-based integrations.\n\nI'm particularly strong at connecting complex ideas from research or business needs into well-structured, working software.",
     followUps: ["What's your strongest skill?", "Tell me about your research areas", "View full CV"],
   },
   research: {
-    text: "My doctoral research focuses on **secure, privacy-centric AI for real-time personalized pediatric brain health management**.\n\nI'm working on:\n\u2022 Generative AI & Trustworthy AI systems\n\u2022 AI Agent-based Software Development\n\u2022 Federated learning for healthcare data\n\u2022 Software security and regulatory compliance\n\u2022 Pediatric Brain Health Management\n\nThe core question: how do we build AI that can monitor and protect children's brain health in real time \u2014 without compromising their privacy?",
+    text: "My research focuses on **trustworthy self-adaptive AI systems** for healthcare and clinical decision support.\n\nI'm interested in how adaptive AI can remain safe, auditable, privacy-aware, and practically useful in sensitive domains. My broader research areas include runtime governance, software architecture for adaptive systems, medical AI, pediatric brain health, federated learning, and responsible data-driven decision-making.",
     followUps: ["What is federated learning?", "Why pediatric brain health?", "Are you open to collaboration?"],
   },
   contact: {
-    text: "I'd love to hear from you! Here's how to reach me:\n\n\ud83d\udce7 **Email:** kaveebhashiofficial@gmail.com\n\ud83d\udccd **Location:** Oulu, Finland\n\ud83d\udd17 **LinkedIn:** linkedin.com/in/kavishwa-wendakoon\n\nI'm open to collaboration on medical AI, mHealth, and privacy-preserving systems. Whether you're a researcher, recruiter, or industry partner \u2014 let's talk.",
+    text: "You can reach me at:\n\n📧 **University:** kavishwa.wendakoonmudiyanselage@oulu.fi\n📧 **Personal:** kaveebhashiofficial@gmail.com\n📍 **Location:** Oulu, Finland\n🔗 **LinkedIn:** linkedin.com/in/kavishwa-wendakoon\n\nI'm open to research collaboration, industry opportunities, and conversations around AI, software engineering, digital health, and intelligent systems. If my work aligns with your team or project, I'd be happy to connect.",
     followUps: ["Send an email", "View LinkedIn", "View full portfolio"],
   },
   greeting: {
-    text: "Hey! \ud83d\udc4b I'm Kavishwa \u2014 a Doctoral Researcher working on trustworthy AI for healthcare. Ask me anything about my research, projects, skills, or just say hi!",
+    text: "Hi, I'm Kavishwa Wendakoon. I'm a software engineer and PhD researcher at the University of Oulu, where I work on trustworthy AI, adaptive software systems, and digital health. Ask me anything about my research, projects, skills, or experience.",
     followUps: ["Tell me about yourself", "What are you working on?", "Show me your projects"],
   },
   "What's your research about?": {
-    text: "My doctoral research at the University of Oulu focuses on building **secure, privacy-centric AI** that can monitor pediatric brain health in real time. The challenge is making AI personalized enough to be clinically useful while protecting children's data with the strongest privacy guarantees \u2014 using techniques like federated learning and on-device ML inference.",
+    text: "My research focuses on **trustworthy self-adaptive AI** for healthcare and clinical decision support.\n\nIn practical terms, I study how adaptive AI systems can change their behavior intelligently while still remaining safe, auditable, and governed by clear constraints. I'm particularly interested in runtime governance, system architecture, and responsible AI in sensitive domains.",
     followUps: ["Why pediatric health specifically?", "What is federated learning?", "View portfolio"],
   },
   "Tell me about your industry experience": {
-    text: "Before academia, I spent 3+ years at **Informatics International** in Colombo, Sri Lanka, building national-scale systems:\n\n\u2022 **E-Passport System** for the International Organization for Migration\n\u2022 **SLRCMS** \u2014 a case management system that won Merit at NBQSA 2020\n\u2022 **Government language integration** \u2014 Sinhala and Tamil for official websites\n\u2022 **InfoHR** \u2014 internal business management platform\n\nThat experience taught me to build systems that actually work at scale, not just prove concepts.",
+    text: "I have around **three years of industry experience** as a software engineer in Sri Lanka. During that time, I worked on practical software development problems and built a strong foundation in engineering, system design, and product-focused thinking.\n\nThat experience still shapes how I approach research today — I like solutions that are not only academically interesting, but also implementable and useful in the real world.",
     followUps: ["What tech did you use?", "Tell me about SLRCMS", "View full CV"],
   },
   "Where are you based?": {
-    text: "I'm currently based in **Oulu, Finland**, where I'm doing my doctoral research at the University of Oulu. Originally from Sri Lanka \u2014 I did my Bachelor's at NSBM University in Colombo, then moved to Finland for my Master's and now the PhD.",
+    text: "I'm based in **Oulu, Finland**, and I'm currently working at the University of Oulu. Originally, I'm from Sri Lanka, so my journey combines international academic research with industry experience from different contexts.",
     followUps: ["Tell me about your education", "Are you open to relocation?", "Contact you"],
   },
+  "Why pediatric health specifically?": {
+    text: "I'm interested in pediatric health because early support can have a **lifelong impact**. Building intelligent and trustworthy systems for children's health means contributing to prevention, better care decisions, and long-term well-being at a stage where timely intervention matters enormously.\n\nIt's a field where careful software and AI design can make a meaningful difference.",
+    followUps: ["What is federated learning?", "Are you open to collaboration?", "View portfolio"],
+  },
+  "What is federated learning?": {
+    text: "Federated learning is a machine learning approach where models are trained across multiple devices or organizations **without moving all the raw data into one central place**.\n\nInstead of sharing sensitive data directly, participants share model updates, which helps improve privacy and data protection. In healthcare and other sensitive domains, this makes federated learning especially valuable.",
+    followUps: ["What's your research about?", "Why pediatric health specifically?", "View portfolio"],
+  },
+  "Are you open to collaboration?": {
+    text: "Yes, absolutely. I'm open to **research collaboration**, **industry partnerships**, and **interdisciplinary projects** — especially in software engineering, AI, digital health, adaptive systems, and trustworthy intelligent applications.\n\nI enjoy working with people who want to build things that are both technically strong and socially meaningful.",
+    followUps: ["Contact you", "What's your research about?", "View full portfolio"],
+  },
+  "Tell me more about SLRCMS": {
+    text: "**SLRCMS** (Sri Lanka Readmission Case Management System) was a national-scale system I helped build at Informatics International. It replaced fragmented manual processes for managing readmission cases across the country.\n\nI led the front-end architecture and contributed to full-stack development. The project won **Merit at the National ICT Awards NBQSA 2020** and was deployed nationally in Sri Lanka.",
+    followUps: ["Tell me about your industry experience", "What tech stack do you use?", "View full portfolio"],
+  },
+  "What tech stack do you use?": {
+    text: "My work spans both research and product development, so my tech stack is broad.\n\nI commonly use **React**, **Next.js**, **Flutter**, **Flask**, **Node.js**, **Supabase**, **PostgreSQL**, **Python**, and **TypeScript**. Depending on the project, I also work with AI APIs, analytical dashboards, mobile development, and research-oriented system architectures for adaptive and privacy-aware applications.",
+    followUps: ["What's your strongest skill?", "Show me your projects", "View full CV"],
+  },
+  "What tech did you use?": {
+    text: "My work spans both research and product development, so my tech stack is broad.\n\nI commonly use **React**, **Next.js**, **Flutter**, **Flask**, **Node.js**, **Supabase**, **PostgreSQL**, **Python**, and **TypeScript**. Depending on the project, I also work with AI APIs, analytical dashboards, mobile development, and research-oriented system architectures for adaptive and privacy-aware applications.",
+    followUps: ["What's your strongest skill?", "Show me your projects", "View full CV"],
+  },
+  "What's your strongest skill?": {
+    text: "My strongest skill is **turning complex ideas into practical software systems**. I'm good at bridging research, architecture, and implementation — which means I can take a concept, design it clearly, and build it into something useful.\n\nThat applies whether I'm working on a research prototype, an AI-enabled platform, or a full-stack product.",
+    followUps: ["What tech stack do you use?", "Tell me about your projects", "View full CV"],
+  },
+  "Tell me about your research areas": {
+    text: "My research areas include **trustworthy AI**, **self-adaptive software systems**, **runtime governance**, **clinical decision support**, **digital health**, **pediatric brain health**, **federated learning**, **privacy-aware intelligent systems**, and **software architecture** for high-stakes environments.\n\nI'm especially interested in how these areas come together in systems that need to be both adaptive and dependable.",
+    followUps: ["What's your research about?", "What is federated learning?", "Are you open to collaboration?"],
+  },
+  "Tell me about your education": {
+    text: "I hold a **Master's degree in Software Engineering and Information Processing Science** from the University of Oulu, and I'm currently pursuing my **PhD** there as well.\n\nMy Bachelor's is in Software Engineering from NSBM University in Sri Lanka. My academic path has focused on software engineering, AI, adaptive systems, and healthcare-oriented intelligent software.",
+    followUps: ["Where are you based?", "Are you open to relocation?", "What's your research about?"],
+  },
+  "Are you open to relocation?": {
+    text: "Yes, I'm open to relocation for the right research or industry opportunity, especially if it aligns with **AI**, **software engineering**, **digital health**, or **advanced intelligent systems**.",
+    followUps: ["Contact you", "Tell me about your skills", "View full portfolio"],
+  },
+  "Contact you": {
+    text: "You can reach me at:\n\n📧 **University:** kavishwa.wendakoonmudiyanselage@oulu.fi\n📧 **Personal:** kaveebhashiofficial@gmail.com\n📍 **Location:** Oulu, Finland\n🔗 **LinkedIn:** linkedin.com/in/kavishwa-wendakoon\n\nI'm open to research collaboration, industry opportunities, and conversations around AI, software engineering, digital health, and intelligent systems.",
+    followUps: ["Send an email", "View LinkedIn", "View full portfolio"],
+  },
   default: {
-    text: "That's a great question! I'd be happy to discuss that further. Feel free to reach out at kaveebhashiofficial@gmail.com, or try one of the quick topics below to learn more about specific areas.",
+    text: "That's a great question. I usually talk about my background, projects, technical skills, research, industry experience, and collaboration opportunities. Feel free to ask me about my work, AI and health research, tech stack, or how to reach me at kavishwa.wendakoonmudiyanselage@oulu.fi or kaveebhashiofficial@gmail.com.",
     followUps: ["Tell me about yourself", "Show me your projects", "What are your skills?"],
   },
 }
@@ -174,6 +218,20 @@ export default function ChatPage() {
         response = responses["Tell me about your industry experience"]
       } else if (lowerText.includes("oulu") || lowerText.includes("finland") || lowerText.includes("location") || lowerText.includes("based") || lowerText.includes("live")) {
         response = responses["Where are you based?"]
+      } else if (lowerText.includes("pediatric") || lowerText.includes("children") || lowerText.includes("brain health")) {
+        response = responses["Why pediatric health specifically?"]
+      } else if (lowerText.includes("federated")) {
+        response = responses["What is federated learning?"]
+      } else if (lowerText.includes("education") || lowerText.includes("degree") || lowerText.includes("university") || lowerText.includes("bachelor") || lowerText.includes("master")) {
+        response = responses["Tell me about your education"]
+      } else if (lowerText.includes("relocat") || lowerText.includes("move")) {
+        response = responses["Are you open to relocation?"]
+      } else if (lowerText.includes("collaborat") || lowerText.includes("partner")) {
+        response = responses["Are you open to collaboration?"]
+      } else if (lowerText.includes("slrcms") || lowerText.includes("readmission") || lowerText.includes("case management")) {
+        response = responses["Tell me more about SLRCMS"]
+      } else if (lowerText.includes("strongest") || lowerText.includes("best skill") || lowerText.includes("superpower")) {
+        response = responses["What's your strongest skill?"]
       }
 
       const delay = 400 + Math.min(response.text.length * 3, 1500)
@@ -212,7 +270,7 @@ export default function ChatPage() {
       return
     }
     if (text === "Send an email") {
-      window.location.href = "mailto:kaveebhashiofficial@gmail.com"
+      window.location.href = "mailto:kavishwa.wendakoonmudiyanselage@oulu.fi"
       return
     }
     if (text === "View LinkedIn") {

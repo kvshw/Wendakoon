@@ -4,12 +4,12 @@ import { useRef, useMemo, useState, useEffect, Suspense } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import * as THREE from "three"
 
-const COUNT = 80
-const CONNECT_DIST = 3.0
+const COUNT = 130
+const CONNECT_DIST = 2.8
 const MOUSE_RADIUS = 5
-const PULSE_COUNT = 15
-const BX = 16, BY = 11, BZ = 7
-const REPEL_DIST = 1.8
+const PULSE_COUNT = 28
+const BX = 18, BY = 12, BZ = 8
+const REPEL_DIST = 1.5
 
 const TEAL = [0.176, 0.831, 0.749]
 const CYAN = [0.133, 0.827, 0.933]
@@ -86,13 +86,13 @@ function ConstellationNetwork() {
       p[i * 3 + 1] = (Math.random() - 0.5) * BY * 2
       p[i * 3 + 2] = (Math.random() - 0.5) * BZ * 2
 
-      v[i * 3] = (Math.random() - 0.5) * 0.003
-      v[i * 3 + 1] = (Math.random() - 0.5) * 0.003
-      v[i * 3 + 2] = (Math.random() - 0.5) * 0.001
+      v[i * 3] = (Math.random() - 0.5) * 0.005
+      v[i * 3 + 1] = (Math.random() - 0.5) * 0.005
+      v[i * 3 + 2] = (Math.random() - 0.5) * 0.002
 
-      const isHub = i < 8
-      s[i] = isHub ? 2.2 + Math.random() * 0.8 : 1.0 + Math.random() * 1.0
-      ba[i] = isHub ? 0.45 + Math.random() * 0.15 : 0.15 + Math.random() * 0.15
+      const isHub = i < 12
+      s[i] = isHub ? 2.4 + Math.random() * 0.8 : 1.0 + Math.random() * 1.2
+      ba[i] = isHub ? 0.5 + Math.random() * 0.15 : 0.18 + Math.random() * 0.17
       la[i] = ba[i]
 
       const zNorm = (p[i * 3 + 2] + BZ) / (BZ * 2)
@@ -112,7 +112,7 @@ function ConstellationNetwork() {
       from: Math.floor(Math.random() * COUNT),
       to: Math.floor(Math.random() * COUNT),
       t: Math.random(),
-      speed: 0.003 + Math.random() * 0.005,
+      speed: 0.004 + Math.random() * 0.007,
     }))
   )
   const pulsePos = useMemo(() => new Float32Array(PULSE_COUNT * 3), [])
@@ -231,12 +231,13 @@ function ConstellationNetwork() {
     const paArr = pulses.geometry.attributes.aAlpha.array as Float32Array
     for (let p = 0; p < PULSE_COUNT; p++) {
       const pulse = pulseState.current[p]
+      if (!pulse) continue
       pulse.t += pulse.speed
       if (pulse.t > 1) {
         pulse.from = Math.floor(Math.random() * COUNT)
         pulse.to = Math.floor(Math.random() * COUNT)
         pulse.t = 0
-        pulse.speed = 0.003 + Math.random() * 0.005
+        pulse.speed = 0.004 + Math.random() * 0.007
       }
       const fi = pulse.from * 3, ti = pulse.to * 3
       pArr[p * 3] = arr[fi] + (arr[ti] - arr[fi]) * pulse.t
