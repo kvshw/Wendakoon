@@ -9,11 +9,20 @@ import { FadeIn, TextReveal } from "./animations"
 const outputs = {
   publications: [
     {
+      title: "Reducing Cognitive Overload in Software Engineers: A Design Science Approach",
+      venue: "TKTP 2025 \u2014 Annual Doctoral Symposium of Computer Science, Helsinki",
+      type: "Conference Paper",
+      link: "https://ceur-ws.org/Vol-4181/paper16.pdf",
+      abstract: "Software engineers often face Mental Workload (MWL) challenges, such as burnout and reduced performance, due to the demanding nature of their work. This paper introduces MentalEEG, a web-based MWL monitoring system developed through an iterative Design Science Research methodology to enhance employee well-being in high-demand cognitive environments. MentalEEG integrates subjective self-assessments and EEG data to provide personalized real-time insights for managing MWL. Using large language models (LLMs), its user-centric dashboard offers real-time analytics and recommendations aligned with organizational health guidelines, enabling proactive interventions to prevent burnout and cognitive overload.",
+      citations: 0,
+      year: 2025,
+    },
+    {
       title: "AI-Driven Mental Workload Monitoring and Well-Being Management in Workplace Settings",
       venue: "University of Oulu \u2014 M.Sc. Thesis",
       type: "Thesis",
       link: "#",
-      abstract: "Exploring how AI can monitor mental workload in real time and support well-being management in workplace environments...",
+      abstract: "Exploring how AI can monitor mental workload in real time and support well-being management in workplace environments, integrating EEG data with subjective assessments and LLM-driven recommendations for organizational-level insights.",
       citations: 0,
       year: 2024,
     },
@@ -22,7 +31,7 @@ const outputs = {
       venue: "NSBM University \u2014 B.Sc. Thesis",
       type: "Thesis",
       link: "#",
-      abstract: "Design and validation of a secure, AI-powered web application for healthcare professionals to manage patient data and automate prescription generation...",
+      abstract: "Design and validation of a secure, AI-powered web application for healthcare professionals to manage patient data and automate prescription generation.",
       citations: 0,
       year: 2020,
     },
