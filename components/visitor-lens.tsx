@@ -19,7 +19,7 @@ const personas = [
     ],
     highlight: "Looking for roles bridging research and real-world healthcare AI systems",
     cta: { label: "Download CV", icon: FileText },
-    stats: { experience: "3+", publications: "2", projects: "10+" },
+    stats: { experience: "3+", publications: "3", projects: "10+" },
   },
   {
     id: "researchers",
@@ -34,7 +34,7 @@ const personas = [
     ],
     highlight: "Seeking collaborators for joint publications in healthcare AI and privacy-preserving systems",
     cta: { label: "Propose Collaboration", icon: Mail },
-    stats: { papers: "2", theses: "2", projects: "10+" },
+    stats: { papers: "3", theses: "2", projects: "10+" },
   },
   {
     id: "industry",
@@ -83,7 +83,7 @@ export function VisitorLens() {
       <div className="relative z-10 px-5 sm:px-[8%] lg:px-[10%]">
         <FadeIn className="text-center mb-10 sm:mb-16">
           <p className="text-xs sm:text-sm font-mono text-primary tracking-widest uppercase mb-3 sm:mb-4">
-            Adaptive Context
+            For You
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground mb-3 sm:mb-4">
             <TextReveal>How Can I Help You?</TextReveal>

@@ -93,18 +93,18 @@ export function CaseFiles() {
   }
 
   return (
-    <section id="case-files" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="projects" className="relative py-20 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
 
       <div className="relative z-10 px-5 sm:px-[8%] lg:px-[10%]">
         <FadeIn className="mb-10 sm:mb-16">
           <p className="text-xs sm:text-sm font-mono text-primary tracking-widest uppercase mb-3 sm:mb-4">Featured Work</p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground mb-3 sm:mb-4 max-w-xl">
-            <TextReveal>Case Files</TextReveal>
+            <TextReveal>Selected Projects</TextReveal>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
-            Research dossiers representing significant contributions to trustworthy AI systems.
-            <span className="text-primary"> Click to explore each project in detail.</span>
+            National-scale systems, healthcare AI, and research prototypes.
+            <span className="text-primary"> Click any project for details.</span>
           </p>
         </FadeIn>
 
@@ -180,7 +180,7 @@ export function CaseFiles() {
                       }}
                       className="w-full flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-surface/30 hover:bg-surface/50 transition-colors"
                     >
-                      <span className="text-[10px] sm:text-xs text-muted-foreground">View Timeline</span>
+                      <span className="text-[10px] sm:text-xs text-muted-foreground">See project timeline</span>
                       <motion.div animate={{ rotate: activeTimeline === file.id ? 90 : 0 }} transition={{ duration: 0.2 }}>
                         <ChevronRight className="w-4 h-4 text-muted-foreground" />
                       </motion.div>

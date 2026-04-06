@@ -94,10 +94,10 @@ export function CurrentFocus() {
             </div>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground mb-3 sm:mb-4">
-            <TextReveal>Where My Attention Lives Right Now</TextReveal>
+            <TextReveal>Current Research Focus</TextReveal>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl">
-            Click each focus to explore what drives my current work.
+            What I&rsquo;m investigating, building, questioning, and open to collaborating on.
           </p>
         </FadeIn>
 

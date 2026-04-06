@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { FileText, Code2, Mic, ArrowUpRight, ExternalLink, Github, Play, Star, Eye, Download, Filter, X } from "lucide-react"
+import { FileText, Code2, Mic, ArrowUpRight, ExternalLink, Github, Play, Star, Download, Filter, X } from "lucide-react"
 import { InteractiveModal } from "./interactive-modal"
 import { FadeIn, TextReveal } from "./animations"
 
@@ -14,7 +14,7 @@ const outputs = {
       type: "Conference Paper",
       link: "https://ceur-ws.org/Vol-4181/paper16.pdf",
       abstract: "Software engineers often face Mental Workload (MWL) challenges, such as burnout and reduced performance, due to the demanding nature of their work. This paper introduces MentalEEG, a web-based MWL monitoring system developed through an iterative Design Science Research methodology to enhance employee well-being in high-demand cognitive environments. MentalEEG integrates subjective self-assessments and EEG data to provide personalized real-time insights for managing MWL. Using large language models (LLMs), its user-centric dashboard offers real-time analytics and recommendations aligned with organizational health guidelines, enabling proactive interventions to prevent burnout and cognitive overload.",
-      citations: 0,
+      takeaway: "Design science research on monitoring cognitive overload in software engineering using EEG and LLMs.",
       year: 2025,
     },
     {
@@ -23,7 +23,7 @@ const outputs = {
       type: "Thesis",
       link: "#",
       abstract: "Exploring how AI can monitor mental workload in real time and support well-being management in workplace environments, integrating EEG data with subjective assessments and LLM-driven recommendations for organizational-level insights.",
-      citations: 0,
+      takeaway: "AI-driven mental workload monitoring combining EEG and self-assessment data with LLM recommendations.",
       year: 2024,
     },
     {
@@ -32,7 +32,7 @@ const outputs = {
       type: "Thesis",
       link: "#",
       abstract: "Design and validation of a secure, AI-powered web application for healthcare professionals to manage patient data and automate prescription generation.",
-      citations: 0,
+      takeaway: "AI-powered healthcare management system with automated prescription generation.",
       year: 2020,
     },
   ],
@@ -108,10 +108,10 @@ export function SelectedOutputs() {
         <FadeIn className="mb-8 sm:mb-12">
           <p className="text-xs sm:text-sm font-mono text-primary tracking-widest uppercase mb-3 sm:mb-4">Selected Work</p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground mb-3 sm:mb-4">
-            <TextReveal>Outputs</TextReveal>
+            <TextReveal>Publications, Talks & Prototypes</TextReveal>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
-            A curated selection of research publications, working prototypes, and public presentations.
+            Research papers, working prototypes, and public presentations.
           </p>
         </FadeIn>
 
@@ -169,12 +169,21 @@ export function SelectedOutputs() {
                         <span className="text-[11px] sm:text-xs text-muted-foreground">{pub.year}</span>
                       </div>
                       <h3 className="text-sm sm:text-lg font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">{pub.title}</h3>
-                      <div className="flex items-center gap-4 mt-2 sm:mt-3">
-                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Eye className="w-3 h-3" />
-                          {pub.citations} citations
-                        </span>
-                      </div>
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 line-clamp-1">{pub.takeaway}</p>
+                      {pub.link && pub.link !== "#" && (
+                        <div className="flex items-center gap-3 mt-2 sm:mt-3">
+                          <a
+                            href={pub.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center gap-1 text-xs text-primary hover:text-foreground transition-colors"
+                          >
+                            <FileText className="w-3 h-3" />
+                            PDF
+                          </a>
+                        </div>
+                      )}
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all shrink-0 ml-3 mt-1" />
                   </motion.button>
@@ -330,21 +339,13 @@ export function SelectedOutputs() {
               <h4 className="text-sm font-mono text-primary uppercase tracking-wider mb-2 sm:mb-3">Abstract</h4>
               <p className="text-sm sm:text-base text-foreground leading-relaxed">{selectedPub.abstract}</p>
             </div>
-            <div className="flex items-center gap-6 pt-4 border-t border-border/30">
-              <div>
-                <div className="text-xl sm:text-2xl font-bold text-primary">{selectedPub.citations}</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Citations</div>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              <a href={selectedPub.link} className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:bg-primary/90 transition-colors">
-                <ExternalLink className="w-4 h-4" />
-                Read Paper
-              </a>
-              <button className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-surface border border-border text-sm text-foreground hover:border-primary/30 transition-colors">
-                <FileText className="w-4 h-4" />
-                Download PDF
-              </button>
+            <div className="flex flex-wrap gap-2 sm:gap-3 pt-4 border-t border-border/30">
+              {selectedPub.link && selectedPub.link !== "#" && (
+                <a href={selectedPub.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:bg-primary/90 transition-colors">
+                  <ExternalLink className="w-4 h-4" />
+                  Read Paper (PDF)
+                </a>
+              )}
             </div>
           </div>
         )}

@@ -68,14 +68,14 @@ export function DecisionLedger() {
       <div className="relative px-5 sm:px-[8%] lg:px-[10%]">
         <FadeIn className="text-center mb-14 sm:mb-18 lg:mb-24">
           <p className="text-[11px] font-mono text-primary tracking-[0.2em] uppercase mb-4 sm:mb-5">
-            Intellectual Evolution
+            How My Thinking Evolved
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-foreground mb-4 sm:mb-5">
-            <TextReveal>Decision Ledger</TextReveal>
+            <TextReveal>Research Journey</TextReveal>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             The paradigm shifts that shaped how I think about building
-            trustworthy AI. Each one a point of no return.
+            trustworthy AI systems.
           </p>
         </FadeIn>
 
@@ -293,7 +293,7 @@ function LedgerCard({
       {/* Expand hint */}
       {!isExpanded && (
         <p className="text-xs text-muted-foreground/70 mt-2 group-hover:text-muted-foreground transition-colors">
-          Click to read the full story
+          Read more about this shift
         </p>
       )}
     </div>

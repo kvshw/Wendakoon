@@ -15,9 +15,9 @@ import Link from "next/link"
 const navLinks = [
   { label: "About", href: "#lens", num: "01" },
   { label: "Research", href: "#research", num: "02" },
-  { label: "Case Files", href: "#case-files", num: "03" },
+  { label: "Projects", href: "#projects", num: "03" },
   { label: "CV", href: "#cv", num: "04" },
-  { label: "Outputs", href: "#outputs", num: "05" },
+  { label: "Publications", href: "#outputs", num: "05" },
   { label: "Contact", href: "#contact", num: "06" },
 ]
 
@@ -178,7 +178,7 @@ export function Navigation() {
                 }`}
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                Ask Me
+                Chat with Me
               </Link>
               <a
                 href="mailto:kaveebhashiofficial@gmail.com"
@@ -304,7 +304,7 @@ export function Navigation() {
                   className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-medium border border-border/40 text-foreground rounded-xl hover:bg-card/30 transition-colors"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  Ask Me Anything
+                  Chat with Me
                 </Link>
                 <a
                   href="mailto:kaveebhashiofficial@gmail.com"

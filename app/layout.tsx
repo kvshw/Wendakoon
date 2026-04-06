@@ -26,21 +26,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Kavishwa Wendakoon — Doctoral Researcher & Software Engineer',
-  description: 'Doctoral Researcher at University of Oulu specializing in secure, privacy-centric AI for pediatric brain health. Former software engineer with 3+ years building national-scale systems.',
-  keywords: ['Trustworthy AI', 'Pediatric Brain Health', 'Federated Learning', 'Privacy-Preserving AI', 'mHealth', 'Doctoral Researcher', 'University of Oulu'],
+  description: 'Kavishwa Wendakoon is a doctoral researcher at the University of Oulu building trustworthy, privacy-preserving AI for pediatric brain health, mHealth, and self-adaptive systems.',
+  keywords: ['Kavishwa Wendakoon', 'Trustworthy AI', 'Pediatric Brain Health', 'Federated Learning', 'Privacy-Preserving AI', 'mHealth', 'Doctoral Researcher', 'University of Oulu', 'Software Engineer'],
   authors: [{ name: 'Kavishwa Wendakoon' }],
   creator: 'Kavishwa Wendakoon',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     title: 'Kavishwa Wendakoon — Doctoral Researcher & Software Engineer',
-    description: 'Secure, privacy-centric AI for pediatric brain health. Doctoral Researcher at University of Oulu, Finland.',
+    description: 'Kavishwa Wendakoon is a doctoral researcher at the University of Oulu building trustworthy, privacy-preserving AI for pediatric brain health, mHealth, and self-adaptive systems.',
     siteName: 'Kavishwa Wendakoon',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Kavishwa Wendakoon — Doctoral Researcher & Software Engineer',
-    description: 'Secure, privacy-centric AI for pediatric brain health. Doctoral Researcher at University of Oulu, Finland.',
+    description: 'Kavishwa Wendakoon is a doctoral researcher at the University of Oulu building trustworthy, privacy-preserving AI for pediatric brain health, mHealth, and self-adaptive systems.',
   },
   robots: {
     index: true,
@@ -62,6 +62,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} font-sans antialiased cursor-none`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:text-sm focus:font-medium">
+          Skip to main content
+        </a>
         <SmoothScroll>
           <CustomCursor />
           <ScrollProgress />

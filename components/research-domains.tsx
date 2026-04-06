@@ -24,7 +24,7 @@ const featured = {
       "Regulatory compliance framework for cross-jurisdiction healthcare AI",
     ],
     skills: ["Python", "Federated Learning", "Flutter", "Machine Learning", "Privacy Engineering"],
-    papers: 0,
+    papers: 1,
     prototypes: 1,
   },
 }
@@ -46,7 +46,7 @@ const supporting = [
         "Software security analysis for AI-driven applications",
       ],
       skills: ["Python", "Machine Learning", "LLMs", "Security Analysis"],
-      papers: 0,
+      papers: 1,
       prototypes: 1,
     },
   },
@@ -66,7 +66,7 @@ const supporting = [
         "mHealth platform architecture with federated learning backend",
       ],
       skills: ["Flutter", "React", "Python", "JavaScript", "Firebase"],
-      papers: 0,
+      papers: 1,
       prototypes: 3,
     },
   },
@@ -88,7 +88,7 @@ const supporting = [
       ],
       skills: ["React", "TypeScript", "Node.js", "Express", "SQL", "Docker"],
       papers: 0,
-      prototypes: 4,
+      prototypes: 5,
     },
   },
 ]
@@ -106,10 +106,10 @@ export function ResearchDomains() {
       <div className="px-5 sm:px-[8%] lg:px-[10%]">
         <FadeIn className="mb-10 sm:mb-16">
           <p className="text-xs sm:text-sm font-mono text-primary tracking-widest uppercase mb-3 sm:mb-4">
-            Research Domains
+            Research Areas
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground mb-3 sm:mb-4 max-w-xl">
-            <TextReveal>Where Theory Meets Implementation</TextReveal>
+            <TextReveal>Research Areas</TextReveal>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
             Four interconnected domains, each informing the others to create
@@ -154,7 +154,7 @@ export function ResearchDomains() {
                   }
                   className="ml-1 sm:ml-2 flex items-center gap-1.5 text-sm text-primary hover:text-primary transition-colors"
                 >
-                  Deep dive
+                  Read more
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </button>
               </div>

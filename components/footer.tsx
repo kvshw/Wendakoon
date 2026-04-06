@@ -142,13 +142,18 @@ export function Footer() {
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 md:gap-8">
             <div className="flex flex-wrap gap-4 sm:gap-6">
-              {["Research", "Case Files", "CV", "Outputs"].map((item) => (
+              {[
+                { label: "Research", href: "#research" },
+                { label: "Projects", href: "#projects" },
+                { label: "CV", href: "#cv" },
+                { label: "Publications", href: "#outputs" },
+              ].map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(" ", "-")}`}
+                  key={item.label}
+                  href={item.href}
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>

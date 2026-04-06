@@ -135,14 +135,13 @@ export function CVSection() {
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 mb-10 sm:mb-14">
             <div>
               <p className="text-[11px] font-mono text-primary tracking-[0.2em] uppercase mb-3 sm:mb-4">
-                Background
+                Experience & Background
               </p>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground">
-                <TextReveal>Selected Experience</TextReveal>
+                <TextReveal>Experience & Background</TextReveal>
               </h2>
               <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
-                A curated overview. Click through the timeline, skills, and
-                awards to explore.
+                Research positions, industry roles, skills, and awards.
               </p>
             </div>
             <a

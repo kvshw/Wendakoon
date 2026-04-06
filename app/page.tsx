@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Preloader />
-      <main className="relative min-h-screen overflow-hidden noise-overlay">
+      <main id="main-content" className="relative min-h-screen overflow-hidden noise-overlay">
         <Navigation />
         <Hero />
         <VisitorLens />
