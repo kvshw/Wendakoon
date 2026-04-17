@@ -6,113 +6,14 @@ import {
   Download,
   ArrowUpRight,
   Briefcase,
-  GraduationCap,
   Code,
   Award,
   ChevronDown,
   MapPin,
 } from "lucide-react"
 import { FadeIn, TextReveal } from "./animations"
-
-const milestones = [
-  {
-    year: "2024 \u2013",
-    role: "Doctoral Researcher",
-    place: "University of Oulu, Finland",
-    type: "research" as const,
-    summary:
-      "Selected for the Finnish Software Engineering Doctoral Pilot Program. Research focuses on secure, privacy-centric AI for real-time personalized pediatric brain health management and advancing mHealth technologies.",
-    achievements: [
-      "Research on Generative AI, Trustworthy AI, and AI Agent-based Software Development",
-      "Focus on Software Security, Regulatory Compliance, and Pediatric Brain Health",
-      "Developing innovative medical AI solutions for mobile health (mHealth)",
-      "Integrating self-adaptive AI, federated learning, and privacy-preserving techniques",
-    ],
-    technologies: ["Python", "Machine Learning", "Federated Learning", "Kubernetes", "Flutter"],
-  },
-  {
-    year: "2019 \u2013 22",
-    role: "Software Engineer",
-    place: "Informatics International Pvt LTD, Colombo, Sri Lanka",
-    type: "industry" as const,
-    summary:
-      "Full-stack development on national-scale systems \u2014 e-passport infrastructure, government language integration, and case management platforms.",
-    achievements: [
-      "Built InfoHR internal business management system using React, Node, and Express",
-      "Designed and developed the e-passport system for the International Organization for Migration of Sri Lanka",
-      "Created a language model integrating Sinhala and Tamil into Sri Lankan Government websites",
-      "Developed SLRCMS \u2014 won Merit at National ICT Awards NBQSA 2020",
-    ],
-    technologies: ["React", "TypeScript", "Node.js", "Express", "SQL"],
-  },
-  {
-    year: "2022 \u2013 24",
-    role: "M.Sc. Software Engineering",
-    place: "University of Oulu, Finland",
-    type: "education" as const,
-    summary:
-      "Master\u2019s thesis on AI-driven mental workload monitoring and well-being management in workplace settings.",
-    achievements: [
-      "Thesis on AI-driven mental workload monitoring and workplace well-being",
-      "Advanced coursework in software architecture and AI systems",
-      "Selected for the Doctoral Pilot Program upon completion",
-    ],
-    technologies: ["Python", "Machine Learning", "Research Methods", "LaTeX"],
-  },
-  {
-    year: "2017 \u2013 20",
-    role: "B.Sc. Software Engineering",
-    place: "NSBM University, Colombo, Sri Lanka",
-    type: "education" as const,
-    summary:
-      "Bachelor\u2019s thesis on doctor-patient management software and its validation. Built foundation in full-stack development and healthcare-oriented software.",
-    achievements: [
-      "Thesis on doctor-patient management software and validation",
-      "Developed Medical Web App for Doctor Patient Management",
-      "Built Raptor Finance cryptocurrency project on Binance Smart Chain",
-      "Created Student Management App using Kotlin and Firebase",
-    ],
-    technologies: ["Java", "JavaScript", "Python", "React", "Kotlin", "PHP", "Solidity"],
-  },
-]
-
-const skillCategories: Record<string, string[]> = {
-  "Research Areas": [
-    "Trustworthy AI",
-    "Generative AI",
-    "Federated Learning",
-    "Privacy-Preserving ML",
-    "Pediatric Brain Health",
-    "mHealth",
-    "Regulatory Compliance",
-  ],
-  Programming: ["JavaScript", "TypeScript", "Python", "Java", "PHP", "Kotlin", "Solidity"],
-  "Web & Mobile": ["React", "Next.js", "Node.js", "Express", "Flutter", "HTML5 & CSS3"],
-  "Tools & Platforms": ["Git", "GitHub", "GitLab", "Docker", "Kubernetes", "Linux/Unix", "SQL", "RESTful APIs"],
-  "Professional Skills": ["Data Visualization (Power BI)", "Critical Thinking", "Team Leadership", "Public Speaking", "Decision-Making"],
-}
-
-const awards = [
-  {
-    title: "Merit Award \u2014 National ICT Awards NBQSA",
-    venue: "NBQSA 2020",
-    year: "2020",
-    note: "Won for SLRCMS (Readmission Case Management System for Sri Lanka) \u2014 the most significant product success for Informatics International.",
-  },
-  {
-    title: "Finnish Doctoral Pilot Program Selection",
-    venue: "University of Oulu",
-    year: "2024",
-    note: "Selected for the Finnish Software Engineering Doctoral Pilot Program based on MSc performance and research potential.",
-  },
-]
-
-const highlights = [
-  { label: "Years in Industry", value: "3+" },
-  { label: "Projects Shipped", value: "10+" },
-  { label: "National-Scale Systems", value: "4" },
-  { label: "Awards", value: "2" },
-]
+import { useSiteSection } from "@/hooks/use-site-section"
+import type { ExperienceContent } from "@/lib/site-content-defaults"
 
 type Tab = "timeline" | "skills" | "awards"
 
@@ -123,30 +24,45 @@ const tabs: { id: Tab; label: string; icon: typeof Briefcase }[] = [
 ]
 
 export function CVSection() {
+  const {
+    eyebrow,
+    title,
+    subtitle,
+    cvDownloadHref,
+    footerNote,
+    milestones,
+    skillCategories,
+    awards,
+    highlights,
+    languages,
+  } = useSiteSection<ExperienceContent>("experience")
+
   const [activeTab, setActiveTab] = useState<Tab>("timeline")
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0)
-  const [activeSkillCat, setActiveSkillCat] = useState("Research Areas")
+  const skillCategoriesRecord = skillCategories as unknown as Record<string, string[]>
+  const [activeSkillCat, setActiveSkillCat] = useState(
+    () => Object.keys(skillCategoriesRecord)[0] ?? "Research Areas"
+  )
+  const activeSkills = skillCategoriesRecord[activeSkillCat] ?? []
 
   return (
-    <section id="cv" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="cv" data-gsap-section className="relative py-20 sm:py-32 overflow-hidden">
       <div className="relative px-5 sm:px-[8%] lg:px-[10%]">
         {/* Header */}
         <FadeIn>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 mb-10 sm:mb-14">
             <div>
-              <p className="text-[11px] font-mono text-primary tracking-[0.2em] uppercase mb-3 sm:mb-4">
-                Experience & Background
-              </p>
+              <p className="text-[11px] font-mono text-primary tracking-[0.2em] uppercase mb-3 sm:mb-4">{eyebrow}</p>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground">
-                <TextReveal>Experience & Background</TextReveal>
+                <TextReveal>{title}</TextReveal>
               </h2>
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
-                Research positions, industry roles, skills, and awards.
-              </p>
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">{subtitle}</p>
             </div>
             <a
-              href="#"
+              href={cvDownloadHref}
+              data-gsap-cta
               className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:shadow-lg hover:shadow-primary/20 transition-all shrink-0 self-start sm:self-auto"
+              aria-label="Download full CV"
             >
               <Download className="w-4 h-4 group-hover:animate-bounce" />
               Download Full CV
@@ -185,6 +101,7 @@ export function CVSection() {
               const isActive = activeTab === tab.id
               return (
                 <button
+                  type="button"
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`relative flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 shrink-0 cursor-pointer ${
@@ -192,6 +109,8 @@ export function CVSection() {
                       ? "bg-primary/10 text-primary border border-primary/25"
                       : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
                   }`}
+                  aria-label={`Show ${tab.label} tab`}
+                  aria-pressed={isActive}
                 >
                   <Icon className="w-4 h-4" />
                   {tab.label}
@@ -211,12 +130,13 @@ export function CVSection() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3, ease: [0.25, 0.4, 0, 1] }}
             >
-              <div className="space-y-2 sm:space-y-3">
+              <div className="space-y-2 sm:space-y-3" data-gsap-timeline>
                 {milestones.map((m, i) => {
                   const isOpen = expandedIndex === i
                   return (
                     <motion.div
                       key={i}
+                      data-gsap-timeline-content
                       className={`rounded-xl border transition-all duration-300 ${
                         isOpen
                           ? "bg-card/60 border-primary/25 shadow-lg shadow-primary/5"
@@ -228,10 +148,13 @@ export function CVSection() {
                       transition={{ delay: i * 0.06 }}
                     >
                       <button
+                        type="button"
                         onClick={() =>
                           setExpandedIndex(isOpen ? null : i)
                         }
                         className="w-full text-left p-4 sm:p-5 md:p-6 cursor-pointer"
+                        aria-expanded={isOpen}
+                        aria-label={`${isOpen ? "Collapse" : "Expand"} ${m.role} at ${m.place}`}
                       >
                         <div className="flex items-start justify-between gap-3 sm:gap-4">
                           <div className="flex items-start gap-3 sm:gap-4 md:gap-6 flex-1 min-w-0">
@@ -361,10 +284,11 @@ export function CVSection() {
               <div className="grid lg:grid-cols-[240px_1fr] gap-4 sm:gap-6">
                 {/* Category selectors */}
                 <div className="flex lg:flex-col gap-2 overflow-x-auto no-scrollbar lg:overflow-visible pb-2 lg:pb-0">
-                  {Object.keys(skillCategories).map((cat) => {
+                  {Object.keys(skillCategoriesRecord).map((cat) => {
                     const isActive = activeSkillCat === cat
                     return (
                       <button
+                        type="button"
                         key={cat}
                         onClick={() => setActiveSkillCat(cat)}
                         className={`relative text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm transition-all duration-300 shrink-0 cursor-pointer whitespace-nowrap ${
@@ -372,10 +296,12 @@ export function CVSection() {
                             ? "bg-card border border-primary/25 text-foreground font-medium shadow-md shadow-primary/5"
                             : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
                         }`}
+                        aria-pressed={isActive}
+                        aria-label={`Show skills in category: ${cat}`}
                       >
                         {cat}
                         <span className="ml-2 text-xs text-muted-foreground">
-                          {skillCategories[cat].length}
+                          {(skillCategoriesRecord[cat] ?? []).length}
                         </span>
                         {isActive && (
                           <motion.div
@@ -418,7 +344,7 @@ export function CVSection() {
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.25 }}
                     >
-                      {skillCategories[activeSkillCat].map((skill, i) => (
+                      {activeSkills.map((skill, i) => (
                         <motion.span
                           key={skill}
                           className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-border/30 text-foreground bg-surface/50 hover:border-primary/30 hover:bg-primary/5 transition-colors cursor-default"
@@ -436,11 +362,7 @@ export function CVSection() {
 
               {/* Languages below */}
               <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                {[
-                  { lang: "English", level: "Fluent", pct: 95 },
-                  { lang: "Sinhala", level: "Native", pct: 100 },
-                  { lang: "Tamil", level: "Conversational", pct: 55 },
-                ].map((l, i) => (
+                {languages.map((l, i) => (
                   <motion.div
                     key={l.lang}
                     className="p-3 sm:p-4 rounded-xl bg-card/30 border border-border/20"
@@ -515,13 +437,12 @@ export function CVSection() {
         {/* Bottom CTA */}
         <FadeIn delay={0.3}>
           <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-border/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              Based in Oulu, Finland. Open to research positions and
-              collaborations worldwide.
-            </p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{footerNote}</p>
             <a
-              href="#contact"
+              href="/#contact"
+              data-gsap-cta
               className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-foreground transition-colors shrink-0"
+              aria-label="Go to contact section to get in touch"
             >
               Get in touch
               <ArrowUpRight className="w-3.5 h-3.5" />

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, type ReactNode } from "react"
+import { useRef, type ReactNode, type HTMLAttributes } from "react"
 import { motion, useInView, useMotionValue, useSpring, useTransform, type Variants } from "framer-motion"
 
 // --- Text Reveal: Characters animate in one by one ---
@@ -91,12 +91,13 @@ export function StaggerContainer({
   className = "",
   staggerDelay = 0.08,
   delay = 0,
+  ...props
 }: {
   children: ReactNode
   className?: string
   staggerDelay?: number
   delay?: number
-}) {
+} & HTMLAttributes<HTMLDivElement>) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
 
@@ -115,6 +116,7 @@ export function StaggerContainer({
     <motion.div
       ref={ref}
       className={className}
+      {...props}
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}

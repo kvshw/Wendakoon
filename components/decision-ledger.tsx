@@ -4,92 +4,31 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { FadeIn, TextReveal } from "./animations"
-
-const decisions = [
-  {
-    from: "Monitoring",
-    to: "Intervention",
-    insight:
-      "Passive observation is insufficient — systems must act when safety thresholds are crossed.",
-    context:
-      "Early research focused on observing AI behavior. But I realized detection without action is incomplete. If you can see a problem forming and do nothing, what was the point of seeing it?",
-    year: "2022",
-    phase: "Foundation",
-  },
-  {
-    from: "Adaptation",
-    to: "Governed Adaptation",
-    insight:
-      "Unconstrained learning creates risk. Adaptation must occur within policy boundaries.",
-    context:
-      "Witnessing adaptive systems drift from intended behavior led to the governance-first approach. Freedom without structure isn't intelligence — it's chaos with better marketing.",
-    year: "2023",
-    phase: "Reframing",
-  },
-  {
-    from: "Model Performance",
-    to: "Trust & Accountability",
-    insight:
-      "Accuracy alone doesn't build confidence. Transparency and auditability matter more.",
-    context:
-      "Stakeholder interviews revealed something humbling: users care more about understanding a system than about its benchmark scores. Trust is earned through legibility, not metrics.",
-    year: "2023",
-    phase: "Reframing",
-  },
-  {
-    from: "Theory",
-    to: "Executable Systems",
-    insight:
-      "Research impact requires implementation. Ideas must become deployable artifacts.",
-    context:
-      "The gap between published papers and practical adoption changed my focus. A framework that exists only in a PDF isn't a framework — it's a suggestion.",
-    year: "2024",
-    phase: "Integration",
-  },
-  {
-    from: "Individual Safety",
-    to: "Systemic Governance",
-    insight:
-      "Component-level safety doesn't guarantee system safety. Governance must be architectural.",
-    context:
-      "Complex system failures taught me that safety is an emergent property. You can't bolt it on at the end. It has to be designed into the architecture from the first line.",
-    year: "2025",
-    phase: "Current",
-  },
-]
+import { useSiteSection } from "@/hooks/use-site-section"
+import type { ResearchJourneyContent } from "@/lib/site-content-defaults"
 
 export function DecisionLedger() {
+  const { eyebrow, title, subtitle, decisions } = useSiteSection<ResearchJourneyContent>("researchJourney")
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   return (
-    <section className="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
+    <section data-gsap-section className="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface-warm/30 to-transparent" />
 
       <div className="relative px-5 sm:px-[8%] lg:px-[10%]">
         <FadeIn className="text-center mb-14 sm:mb-18 lg:mb-24">
-          <p className="text-[11px] font-mono text-primary tracking-[0.2em] uppercase mb-4 sm:mb-5">
-            How My Thinking Evolved
-          </p>
+          <p className="text-[11px] font-mono text-primary tracking-[0.2em] uppercase mb-4 sm:mb-5">{eyebrow}</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-foreground mb-4 sm:mb-5">
-            <TextReveal>Research Journey</TextReveal>
+            <TextReveal>{title}</TextReveal>
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            The paradigm shifts that shaped how I think about building
-            trustworthy AI systems.
-          </p>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
         </FadeIn>
 
-        {/* Timeline */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Central spine — desktop */}
+        <div className="relative max-w-5xl mx-auto" data-gsap-timeline>
           <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2">
-            <motion.div
+            <div
+              data-gsap-timeline-line
               className="w-[2px] h-full bg-gradient-to-b from-transparent via-primary/25 to-transparent"
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              style={{ transformOrigin: "top" }}
             />
           </div>
 
@@ -97,16 +36,13 @@ export function DecisionLedger() {
             {decisions.map((decision, i) => {
               const isRight = i % 2 !== 0
               const isExpanded = expandedIndex === i
-              
+
               return (
-                <div
-                  key={i}
-                  className="relative grid grid-cols-1 lg:grid-cols-[1fr_80px_1fr] items-start"
-                >
-                  {/* Left card or spacer */}
+                <div key={i} className="relative grid grid-cols-1 lg:grid-cols-[1fr_80px_1fr] items-start">
                   <div>
                     {!isRight && (
                       <motion.div
+                        data-gsap-timeline-content
                         className="hidden lg:block"
                         initial={{ opacity: 0, x: -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -121,18 +57,16 @@ export function DecisionLedger() {
                           decision={decision}
                           index={i}
                           isExpanded={isExpanded}
-                          onToggle={() =>
-                            setExpandedIndex(isExpanded ? null : i)
-                          }
+                          onToggle={() => setExpandedIndex(isExpanded ? null : i)}
                           align="right"
                         />
                       </motion.div>
                     )}
                   </div>
 
-                  {/* Center node */}
                   <div className="hidden lg:flex justify-center">
                     <motion.div
+                      data-gsap-timeline-node
                       className="relative z-10"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
@@ -148,17 +82,15 @@ export function DecisionLedger() {
                         <span className="text-[11px] font-mono font-bold text-primary leading-none">
                           {decision.year.slice(2)}
                         </span>
-                        <span className="text-[8px] text-muted-foreground mt-0.5">
-                          {decision.phase}
-                        </span>
-                    </div>
+                        <span className="text-[8px] text-muted-foreground mt-0.5">{decision.phase}</span>
+                      </div>
                     </motion.div>
-                    </div>
+                  </div>
 
-                  {/* Right card or spacer */}
                   <div>
                     {isRight && (
                       <motion.div
+                        data-gsap-timeline-content
                         className="hidden lg:block"
                         initial={{ opacity: 0, x: 40 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -173,17 +105,15 @@ export function DecisionLedger() {
                           decision={decision}
                           index={i}
                           isExpanded={isExpanded}
-                          onToggle={() =>
-                            setExpandedIndex(isExpanded ? null : i)
-                          }
+                          onToggle={() => setExpandedIndex(isExpanded ? null : i)}
                           align="left"
                         />
                       </motion.div>
                     )}
                   </div>
 
-                  {/* Mobile card */}
                   <motion.div
+                    data-gsap-timeline-content
                     className="lg:hidden col-span-1"
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -194,9 +124,7 @@ export function DecisionLedger() {
                       decision={decision}
                       index={i}
                       isExpanded={isExpanded}
-                      onToggle={() =>
-                        setExpandedIndex(isExpanded ? null : i)
-                      }
+                      onToggle={() => setExpandedIndex(isExpanded ? null : i)}
                       align="left"
                     />
                   </motion.div>
@@ -205,7 +133,6 @@ export function DecisionLedger() {
             })}
           </div>
 
-          {/* End marker */}
           <motion.div
             className="hidden lg:flex justify-center mt-20"
             initial={{ opacity: 0, scale: 0 }}
@@ -228,7 +155,7 @@ function LedgerCard({
   onToggle,
   align,
 }: {
-  decision: (typeof decisions)[0]
+  decision: ResearchJourneyContent["decisions"][number]
   index: number
   isExpanded: boolean
   onToggle: () => void
@@ -246,34 +173,24 @@ function LedgerCard({
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onToggle()}
     >
-      {/* Year badge + shift number */}
       <div className="flex items-center gap-3 mb-5">
-        <span className="text-xs font-mono text-muted-foreground">
-          {decision.year}
-        </span>
+        <span className="text-xs font-mono text-muted-foreground">{decision.year}</span>
         <span className="w-8 h-px bg-border/30" />
         <span className="text-[10px] font-mono text-muted-foreground/70 tracking-wider">
           SHIFT {String(index + 1).padStart(2, "0")}
         </span>
       </div>
 
-      {/* Transition: from → to */}
       <div className="flex items-center gap-3 mb-5">
-        <span className="text-lg text-muted-foreground font-serif">
-          {decision.from}
-        </span>
+        <span className="text-lg text-muted-foreground font-serif">{decision.from}</span>
         <ArrowRight className="w-4 h-4 text-primary/70 shrink-0" />
-        <span className="text-lg font-serif font-medium text-foreground">
-          {decision.to}
-        </span>
+        <span className="text-lg font-serif font-medium text-foreground">{decision.to}</span>
       </div>
 
-      {/* Insight — the heart of the card */}
       <p className="text-[17px] font-serif italic leading-relaxed text-foreground/90 mb-4">
         &ldquo;{decision.insight}&rdquo;
       </p>
 
-      {/* Expandable context */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -290,7 +207,6 @@ function LedgerCard({
         )}
       </AnimatePresence>
 
-      {/* Expand hint */}
       {!isExpanded && (
         <p className="text-xs text-muted-foreground/70 mt-2 group-hover:text-muted-foreground transition-colors">
           Read more about this shift

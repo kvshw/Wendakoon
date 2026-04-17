@@ -1,0 +1,61 @@
+# Kavishwa Wendakoon — Site summary for LLMs
+
+> **Purpose:** This file helps language models and AI crawlers understand the structure, topics, and services described on this personal site. Canonical site URL should be set via `NEXT_PUBLIC_SITE_URL` in production.
+
+## Who I am
+
+**Kavishwa Wendakoon** is a **doctoral researcher** and **software engineer** at the **University of Oulu** (Finland). His work focuses on **trustworthy, privacy-preserving AI** for **pediatric brain health**, **mHealth** (mobile health), and **self-adaptive / federated** systems. He combines **3+ years of industry engineering** (national-scale government and healthcare-related systems) with **doctoral research** in medical AI and software engineering.
+
+**Contact (public):**  
+- Personal email: `kaveebhashiofficial@gmail.com`  
+- University email: `kavishwa.wendakoonmudiyanselage@oulu.fi`  
+- **GitHub:** https://github.com/kvshw  
+- **LinkedIn:** https://www.linkedin.com/in/kavishwa-wendakoon/  
+- **Google Scholar:** https://scholar.google.com/citations?hl=en&user=LtjOAsQAAAAJ  
+- **ORCID:** https://orcid.org/0009-0001-1691-4750  
+
+## Core themes (for retrieval)
+
+- Trustworthy & generative AI; explainability; regulatory-aware healthcare AI  
+- Federated learning and privacy-preserving ML for sensitive health data  
+- Full-stack engineering: React, Next.js, TypeScript, Node.js, Python, Flutter  
+- National-scale systems: e-government, case management, secure front-ends  
+- Publications, talks, and prototypes at the intersection of SE, AI, and health  
+
+## Key pages
+
+| Path | Description |
+|------|-------------|
+| `/` | **Home** — Hero, audience-specific “How can I help you” section, research domains, selected projects (case files), decision ledger, current focus, CV/skills, publications & prototypes, contact. |
+| `/about` | **About** — Same “audience lens” content as on the home page, as a dedicated crawlable route with AboutPage-oriented metadata. |
+| `/projects` | **Projects** — Selected shipped and research projects (e.g. SLRCMS, e-passport, medical web app) with timelines and detail modals. |
+| `/chat` | **Interactive Q&A** — Rule-based assistant answering questions about background, projects, skills, research, and contact. |
+| `/research` | **Research** (if enabled in nav) — Additional research framing (when present in app routes). |
+| `/publications` | **Publications** listing (when present). |
+| `/cv` | **CV** view (when present). |
+| `/contact` | **Contact** (section `#contact` on home; dedicated route may exist). |
+
+## Services & collaboration (machine-readable intent)
+
+- **Research collaboration** — Healthcare AI, federated learning, privacy-preserving systems.  
+- **Industry / consulting** — AI governance, clinical decision support prototypes, responsible AI.  
+- **Mentorship** — Guidance for students and emerging researchers (undergraduate / masters).  
+
+## Technical specs (stack)
+
+- **Framework:** Next.js (App Router), React 19, TypeScript  
+- **Styling / UI:** Tailwind CSS v4, Framer Motion, Radix-based UI primitives, custom cursor & scroll UX  
+- **Analytics:** Vercel Analytics  
+- **Fonts:** Inter, Playfair Display, Geist Mono (Google Fonts)  
+- **3D / viz:** Three.js via `@react-three/fiber` (e.g. network visualization on hero)  
+- **Deployment:** Compatible with Vercel; set `NEXT_PUBLIC_SITE_URL` for correct canonical URLs and social previews.  
+
+## Files useful for AI / SEO
+
+- `/llms.txt` — This file.  
+- `/opengraph-image` — Dynamically generated Open Graph image (1200×630).  
+- JSON-LD embedded on main routes: `Person`, `WebSite`, `WebPage`, `AboutPage`, `CollectionPage` / `ItemList` where applicable.  
+
+## License / usage
+
+Content describes a personal academic and professional profile. For citation or republication, prefer linking to the live site and primary sources (Scholar, ORCID, GitHub).

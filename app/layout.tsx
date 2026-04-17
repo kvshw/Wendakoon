@@ -4,6 +4,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { CustomCursor } from '@/components/custom-cursor'
 import { ScrollProgress } from '@/components/scroll-progress'
+import { siteConfig, siteUrl } from '@/lib/site'
+import { AppProviders } from '@/components/app-providers'
 import './globals.css'
 
 const inter = Inter({ 
@@ -25,22 +27,39 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Kavishwa Wendakoon — Doctoral Researcher & Software Engineer',
-  description: 'Kavishwa Wendakoon is a doctoral researcher at the University of Oulu building trustworthy, privacy-preserving AI for pediatric brain health, mHealth, and self-adaptive systems.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteConfig.title,
+    template: '%s',
+  },
+  description: siteConfig.description,
   keywords: ['Kavishwa Wendakoon', 'Trustworthy AI', 'Pediatric Brain Health', 'Federated Learning', 'Privacy-Preserving AI', 'mHealth', 'Doctoral Researcher', 'University of Oulu', 'Software Engineer'],
-  authors: [{ name: 'Kavishwa Wendakoon' }],
+  authors: [{ name: 'Kavishwa Wendakoon', url: siteUrl }],
   creator: 'Kavishwa Wendakoon',
+  publisher: 'Kavishwa Wendakoon',
+  alternates: { canonical: '/' },
+  category: 'technology',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    title: 'Kavishwa Wendakoon — Doctoral Researcher & Software Engineer',
-    description: 'Kavishwa Wendakoon is a doctoral researcher at the University of Oulu building trustworthy, privacy-preserving AI for pediatric brain health, mHealth, and self-adaptive systems.',
-    siteName: 'Kavishwa Wendakoon',
+    locale: siteConfig.locale,
+    url: '/',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} — ${siteConfig.jobTitle}`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kavishwa Wendakoon — Doctoral Researcher & Software Engineer',
-    description: 'Kavishwa Wendakoon is a doctoral researcher at the University of Oulu building trustworthy, privacy-preserving AI for pediatric brain health, mHealth, and self-adaptive systems.',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
@@ -62,15 +81,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} font-sans antialiased cursor-none`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:text-sm focus:font-medium">
-          Skip to main content
-        </a>
-        <SmoothScroll>
-          <CustomCursor />
-          <ScrollProgress />
-          {children}
-        </SmoothScroll>
-        <Analytics />
+        <AppProviders>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:text-sm focus:font-medium">
+            Skip to main content
+          </a>
+          <SmoothScroll>
+            <CustomCursor />
+            <ScrollProgress />
+            {children}
+          </SmoothScroll>
+          <Analytics />
+        </AppProviders>
       </body>
     </html>
   )

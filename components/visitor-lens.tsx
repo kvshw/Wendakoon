@@ -77,7 +77,7 @@ export function VisitorLens() {
   }
 
   return (
-    <section id="lens" className="relative py-20 sm:py-32 overflow-hidden">
+    <section id="lens" data-gsap-section className="relative py-20 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
 
       <div className="relative z-10 px-5 sm:px-[8%] lg:px-[10%]">
@@ -103,6 +103,7 @@ export function VisitorLens() {
 
               return (
                 <button
+                  type="button"
                   key={persona.id}
                   onClick={() => handlePersonaChange(persona)}
                   className={`group relative flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg font-medium text-sm transition-all duration-500 ease-out overflow-hidden cursor-pointer shrink-0 ${
@@ -110,6 +111,8 @@ export function VisitorLens() {
                       ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                       : "bg-surface border border-border hover:border-primary/40 text-muted-foreground hover:text-foreground"
                   }`}
+                  aria-pressed={isActive}
+                  aria-label={`Show profile for ${persona.label}`}
                 >
                   <Icon className={`relative w-4 h-4 transition-colors duration-500 ${isActive ? "" : "group-hover:text-primary"}`} />
                   <span className="relative whitespace-nowrap">{persona.label}</span>
@@ -127,7 +130,7 @@ export function VisitorLens() {
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <div className="relative glass rounded-2xl border border-border/50 overflow-hidden">
+          <article className="relative glass rounded-2xl border border-border/50 overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-primary/10 to-transparent pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none" />
 
@@ -169,8 +172,10 @@ export function VisitorLens() {
                     </div>
 
                     <a
-                      href="#contact"
+                      href="/#contact"
+                      data-gsap-cta
                       className="inline-flex items-center gap-3 px-4 sm:px-5 py-2.5 sm:py-3 mt-2 sm:mt-4 bg-primary/10 text-primary rounded-lg font-medium text-sm hover:bg-primary hover:text-primary-foreground transition-all duration-500 ease-out group"
+                      aria-label={`${activePersona.cta.label}: go to contact section`}
                     >
                       <activePersona.cta.icon className="w-4 h-4" />
                       {activePersona.cta.label}
@@ -197,17 +202,19 @@ export function VisitorLens() {
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </article>
         </FadeIn>
 
         <div className="flex justify-center mt-6 sm:mt-8">
           <button
+            type="button"
             onClick={() => {
               const currentIndex = personas.findIndex((p) => p.id === activePersona.id)
               const nextIndex = (currentIndex + 1) % personas.length
               handlePersonaChange(personas[nextIndex])
             }}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            aria-label={`Show next audience profile: ${personas[(personas.findIndex((p) => p.id === activePersona.id) + 1) % personas.length].label}`}
           >
             <span>
               Next: {personas[(personas.findIndex((p) => p.id === activePersona.id) + 1) % personas.length].label}

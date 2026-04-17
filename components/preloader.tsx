@@ -8,6 +8,16 @@ export function Preloader() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
+    const preloadSeenKey = "kw-preloader-seen"
+    const hasSeenPreloader = sessionStorage.getItem(preloadSeenKey) === "1"
+    if (hasSeenPreloader) {
+      setIsLoading(false)
+      setProgress(100)
+      return
+    }
+
+    sessionStorage.setItem(preloadSeenKey, "1")
+
     const duration = 2000
     const interval = 20
     let current = 0
@@ -29,7 +39,7 @@ export function Preloader() {
     <AnimatePresence mode="wait">
       {isLoading && (
         <motion.div
-          className="fixed inset-0 z-[10000] flex items-center justify-center bg-background"
+          className="fixed inset-0 z-10000 flex items-center justify-center bg-background"
           exit={{
             clipPath: "inset(0 0 100% 0)",
             transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },

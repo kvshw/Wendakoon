@@ -57,10 +57,11 @@ export function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
 
   return (
-    <footer id="contact" className="relative border-t border-border/20">
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
+    <footer id="contact" data-gsap-section className="relative border-t border-border/20">
+      <div className="absolute inset-0 bg-linear-to-t from-ink/40 to-transparent" />
 
       <motion.button
+        type="button"
         onClick={scrollToTop}
         className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50 p-2.5 sm:p-3 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:scale-110 transition-transform"
         animate={{
@@ -69,6 +70,7 @@ export function Footer() {
           pointerEvents: showScrollTop ? "auto" : "none",
         }}
         transition={{ duration: 0.3 }}
+        aria-label="Scroll back to top of page"
       >
         <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
       </motion.button>
@@ -76,7 +78,7 @@ export function Footer() {
       {/* Main CTA Section */}
       <div className="relative z-10 px-5 sm:px-[8%] lg:px-[10%] pt-16 sm:pt-28 pb-12 sm:pb-20">
         <FadeIn>
-          <div className="max-w-3xl">
+          <div className="max-w-3xl" data-gsap-footer-cta>
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-foreground leading-tight mb-6 sm:mb-8">
               <TextReveal>
                 If you are building systems that must adapt without losing trust, we should talk.
@@ -91,7 +93,9 @@ export function Footer() {
             <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
               <a
                 href={`mailto:${email}`}
+                data-gsap-cta
                 className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-5 sm:px-7 py-3 sm:py-4 bg-primary text-primary-foreground rounded-lg font-medium text-sm sm:text-base transition-all hover:shadow-xl hover:shadow-primary/20"
+                aria-label="Start a conversation by sending an email to Kavishwa Wendakoon"
               >
                 <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Start a Conversation</span>
@@ -99,8 +103,11 @@ export function Footer() {
               </a>
 
               <motion.button
+                type="button"
                 onClick={copyEmail}
+                data-gsap-cta
                 className="group flex items-center justify-center gap-2 px-4 sm:px-5 py-3 sm:py-4 rounded-lg border border-border/40 hover:border-border/60 transition-all"
+                aria-label={copied ? "Email address copied to clipboard" : "Copy email address to clipboard"}
               >
                 <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-foreground transition-colors truncate">
                   {email}
@@ -143,10 +150,11 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 md:gap-8">
             <div className="flex flex-wrap gap-4 sm:gap-6">
               {[
-                { label: "Research", href: "#research" },
-                { label: "Projects", href: "#projects" },
-                { label: "CV", href: "#cv" },
-                { label: "Publications", href: "#outputs" },
+                { label: "Research", href: "/#research" },
+                { label: "Projects", href: "/projects" },
+                { label: "CV", href: "/#cv" },
+                { label: "Blog", href: "/#blog" },
+                { label: "Publications", href: "/#outputs" },
               ].map((item) => (
                 <a
                   key={item.label}

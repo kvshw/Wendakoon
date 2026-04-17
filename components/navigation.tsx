@@ -11,17 +11,25 @@ import {
 } from "framer-motion"
 import { Menu, X, ArrowUpRight, MessageCircle } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 const navLinks = [
-  { label: "About", href: "#lens", num: "01" },
-  { label: "Research", href: "#research", num: "02" },
-  { label: "Projects", href: "#projects", num: "03" },
-  { label: "CV", href: "#cv", num: "04" },
-  { label: "Publications", href: "#outputs", num: "05" },
-  { label: "Contact", href: "#contact", num: "06" },
+  { label: "About", href: "/#lens", num: "01" },
+  { label: "Research", href: "/#research", num: "02" },
+  { label: "Projects", href: "/#projects", num: "03" },
+  { label: "CV", href: "/#cv", num: "04" },
+  { label: "Publications", href: "/#outputs", num: "05" },
+  { label: "Blog", href: "/#blog", num: "06" },
+  { label: "Contact", href: "/#contact", num: "07" },
 ]
 
+function sectionIdFromHref(href: string): string | null {
+  if (href.startsWith("/#")) return href.slice(2)
+  return null
+}
+
 export function Navigation() {
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isCompact, setIsCompact] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -48,24 +56,46 @@ export function Navigation() {
   }, [isMobileMenuOpen])
 
   useEffect(() => {
-    const ids = navLinks.map((l) => l.href.replace("#", ""))
-    const observers: IntersectionObserver[] = []
+    if (pathname !== "/") {
+      setActiveSection("")
+      return
+    }
 
-    ids.forEach((id) => {
-      const el = document.getElementById(id)
-      if (!el) return
-      const obs = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) setActiveSection(id)
-        },
-        { rootMargin: "-35% 0px -35% 0px" }
-      )
-      obs.observe(el)
-      observers.push(obs)
-    })
+    const sectionIds = navLinks
+      .map((link) => sectionIdFromHref(link.href))
+      .filter((id): id is string => Boolean(id))
 
-    return () => observers.forEach((o) => o.disconnect())
-  }, [])
+    const updateActiveSection = () => {
+      const currentScrollY = window.scrollY
+      const viewportBottom = currentScrollY + window.innerHeight
+      const docHeight = document.documentElement.scrollHeight
+
+      if (docHeight - viewportBottom < 80) {
+        setActiveSection("contact")
+        return
+      }
+
+      let current = sectionIds[0] ?? ""
+      for (const id of sectionIds) {
+        const section = document.getElementById(id)
+        if (!section) continue
+        const sectionTop = section.getBoundingClientRect().top + currentScrollY
+        if (currentScrollY + 140 >= sectionTop) {
+          current = id
+        }
+      }
+      setActiveSection(current)
+    }
+
+    updateActiveSection()
+    window.addEventListener("scroll", updateActiveSection, { passive: true })
+    window.addEventListener("resize", updateActiveSection)
+
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection)
+      window.removeEventListener("resize", updateActiveSection)
+    }
+  }, [pathname])
 
   return (
     <>
@@ -87,12 +117,11 @@ export function Navigation() {
             }`}
           >
             {/* Logo */}
-            <a
-              href="#"
+            <Link
+              href="/"
               className="flex items-center gap-2 sm:gap-2.5 shrink-0"
-              onClick={(e) => {
-                e.preventDefault()
-                window.scrollTo({ top: 0, behavior: "smooth" })
+              aria-label="Kavishwa Wendakoon home"
+              onClick={() => {
                 setActiveSection("")
               }}
             >
@@ -127,7 +156,7 @@ export function Navigation() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </a>
+            </Link>
 
             {/* Desktop nav links */}
             <div
@@ -136,13 +165,16 @@ export function Navigation() {
               }`}
             >
               {navLinks.map((link) => {
-                const id = link.href.replace("#", "")
-                const active = activeSection === id
+                const id = sectionIdFromHref(link.href)
+                const active = id != null && activeSection === id
 
                 return (
                   <a
                     key={link.label}
                     href={link.href}
+                    onClick={() => {
+                      if (id) setActiveSection(id)
+                    }}
                     className={`relative px-3 py-1.5 text-[13px] transition-colors duration-200 ${
                       active
                         ? "text-foreground"
@@ -176,6 +208,7 @@ export function Navigation() {
                     ? "px-3 py-1.5 text-[12px] rounded-full"
                     : "px-3.5 py-2 text-[13px] rounded-lg"
                 }`}
+                aria-label="Open AI chat to learn about Kavishwa's work and contact options"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 Chat with Me
@@ -187,6 +220,7 @@ export function Navigation() {
                     ? "px-3.5 py-1.5 text-[12px] rounded-full"
                     : "px-4 py-2 text-[13px] rounded-lg"
                 }`}
+                aria-label="Send email to Kavishwa Wendakoon"
               >
                 Get in Touch
                 <ArrowUpRight className="w-3 h-3" />
@@ -196,7 +230,7 @@ export function Navigation() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-foreground hover:bg-white/[0.04] rounded-lg transition-colors"
+              className="lg:hidden p-2 text-foreground hover:bg-white/4 rounded-lg transition-colors"
               aria-label="Open menu"
             >
               <Menu className="w-5 h-5" />
@@ -255,7 +289,7 @@ export function Navigation() {
                 </div>
                 <motion.button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2.5 text-foreground hover:bg-white/[0.04] rounded-xl transition-colors"
+                  className="p-2.5 text-foreground hover:bg-white/4 rounded-xl transition-colors"
                   aria-label="Close menu"
                 >
                   <X className="w-5 h-5" />
@@ -268,7 +302,11 @@ export function Navigation() {
                   <motion.a
                     key={link.label}
                     href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => {
+                      const id = sectionIdFromHref(link.href)
+                      if (id) setActiveSection(id)
+                      setIsMobileMenuOpen(false)
+                    }}
                     className="group flex items-center justify-between py-4 border-b border-border/15"
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -302,6 +340,7 @@ export function Navigation() {
                   href="/chat"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-medium border border-border/40 text-foreground rounded-xl hover:bg-card/30 transition-colors"
+                  aria-label="Open AI chat to learn about Kavishwa's work and contact options"
                 >
                   <MessageCircle className="w-4 h-4" />
                   Chat with Me
@@ -310,6 +349,7 @@ export function Navigation() {
                   href="mailto:kaveebhashiofficial@gmail.com"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-medium bg-primary text-primary-foreground rounded-xl hover:bg-primary/85 transition-colors"
+                  aria-label="Send email to Kavishwa Wendakoon"
                 >
                   Get in Touch
                   <ArrowUpRight className="w-4 h-4" />

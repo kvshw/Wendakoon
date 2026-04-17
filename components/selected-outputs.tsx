@@ -5,114 +5,37 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FileText, Code2, Mic, ArrowUpRight, ExternalLink, Github, Play, Star, Download, Filter, X } from "lucide-react"
 import { InteractiveModal } from "./interactive-modal"
 import { FadeIn, TextReveal } from "./animations"
-
-const outputs = {
-  publications: [
-    {
-      title: "Reducing Cognitive Overload in Software Engineers: A Design Science Approach",
-      venue: "TKTP 2025 \u2014 Annual Doctoral Symposium of Computer Science, Helsinki",
-      type: "Conference Paper",
-      link: "https://ceur-ws.org/Vol-4181/paper16.pdf",
-      abstract: "Software engineers often face Mental Workload (MWL) challenges, such as burnout and reduced performance, due to the demanding nature of their work. This paper introduces MentalEEG, a web-based MWL monitoring system developed through an iterative Design Science Research methodology to enhance employee well-being in high-demand cognitive environments. MentalEEG integrates subjective self-assessments and EEG data to provide personalized real-time insights for managing MWL. Using large language models (LLMs), its user-centric dashboard offers real-time analytics and recommendations aligned with organizational health guidelines, enabling proactive interventions to prevent burnout and cognitive overload.",
-      takeaway: "Design science research on monitoring cognitive overload in software engineering using EEG and LLMs.",
-      year: 2025,
-    },
-    {
-      title: "AI-Driven Mental Workload Monitoring and Well-Being Management in Workplace Settings",
-      venue: "University of Oulu \u2014 M.Sc. Thesis",
-      type: "Thesis",
-      link: "#",
-      abstract: "Exploring how AI can monitor mental workload in real time and support well-being management in workplace environments, integrating EEG data with subjective assessments and LLM-driven recommendations for organizational-level insights.",
-      takeaway: "AI-driven mental workload monitoring combining EEG and self-assessment data with LLM recommendations.",
-      year: 2024,
-    },
-    {
-      title: "Doctor-Patient Management Software and Its Validation",
-      venue: "NSBM University \u2014 B.Sc. Thesis",
-      type: "Thesis",
-      link: "#",
-      abstract: "Design and validation of a secure, AI-powered web application for healthcare professionals to manage patient data and automate prescription generation.",
-      takeaway: "AI-powered healthcare management system with automated prescription generation.",
-      year: 2020,
-    },
-  ],
-  prototypes: [
-    {
-      title: "Medical Web App for Doctor Patient Management",
-      description: "AI-powered web app for healthcare professionals to manage patient data and automate prescriptions",
-      tech: ["React", "JavaScript", "Python"],
-      link: "#",
-      github: "#",
-      stars: 0,
-      downloads: 0,
-    },
-    {
-      title: "SLRCMS \u2014 Readmission Case Management System",
-      description: "National-scale case management system for Sri Lanka \u2014 Merit at NBQSA 2020",
-      tech: ["React", "TypeScript", "Node.js"],
-      link: "#",
-      github: "#",
-      stars: 0,
-      downloads: 0,
-    },
-    {
-      title: "Raptor Finance",
-      description: "Cryptocurrency token on the Binance Smart Chain",
-      tech: ["PHP", "Solidity"],
-      link: "#",
-      github: "#",
-      stars: 0,
-      downloads: 0,
-    },
-    {
-      title: "Student Management App",
-      description: "Android app for teachers to manage students using Kotlin and Firebase",
-      tech: ["Kotlin", "Firebase"],
-      link: "#",
-      github: "#",
-      stars: 0,
-      downloads: 0,
-    },
-  ],
-  talks: [
-    {
-      title: "Secure AI for Pediatric Brain Health",
-      event: "University of Oulu Doctoral Seminar",
-      type: "Talk",
-      date: "2025",
-      videoUrl: "#",
-      slides: "#",
-    },
-  ],
-}
+import { useSiteSection } from "@/hooks/use-site-section"
+import type { OutputsContent } from "@/lib/site-content-defaults"
 
 type TabType = "publications" | "prototypes" | "talks"
 
 export function SelectedOutputs() {
+  const { eyebrow, title, subtitle, publications, prototypes, talks } = useSiteSection<OutputsContent>("outputs")
   const [activeTab, setActiveTab] = useState<TabType>("publications")
-  const [selectedPub, setSelectedPub] = useState<(typeof outputs.publications)[0] | null>(null)
+  const [selectedPub, setSelectedPub] = useState<OutputsContent["publications"][number] | null>(null)
   const [filter, setFilter] = useState<string | null>(null)
 
   const tabs = [
-    { id: "publications" as TabType, label: "Publications", icon: FileText, count: outputs.publications.length },
-    { id: "prototypes" as TabType, label: "Prototypes", icon: Code2, count: outputs.prototypes.length },
-    { id: "talks" as TabType, label: "Talks & Writing", icon: Mic, count: outputs.talks.length },
+    { id: "publications" as TabType, label: "Publications", icon: FileText, count: publications.length },
+    { id: "prototypes" as TabType, label: "Prototypes", icon: Code2, count: prototypes.length },
+    { id: "talks" as TabType, label: "Talks & Writing", icon: Mic, count: talks.length },
   ]
 
-  const filteredPrototypes = filter ? outputs.prototypes.filter((p) => p.tech.includes(filter)) : outputs.prototypes
-  const allTech = [...new Set(outputs.prototypes.flatMap((p) => p.tech))]
+  const filteredPrototypes = filter
+    ? prototypes.filter((p) => (p.tech as readonly string[]).includes(filter))
+    : prototypes
+  const allTech = [...new Set(prototypes.flatMap((p) => p.tech))]
 
   return (
-    <section className="relative py-20 sm:py-32">
+    <section data-gsap-section className="relative py-20 sm:py-32">
       <div className="px-5 sm:px-[8%] lg:px-[10%]">
         <FadeIn className="mb-8 sm:mb-12">
-          <p className="text-xs sm:text-sm font-mono text-primary tracking-widest uppercase mb-3 sm:mb-4">Selected Work</p>
+          <p className="text-xs sm:text-sm font-mono text-primary tracking-widest uppercase mb-3 sm:mb-4">{eyebrow}</p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-medium text-foreground mb-3 sm:mb-4">
-            <TextReveal>Publications, Talks & Prototypes</TextReveal>
+            <TextReveal>{title}</TextReveal>
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
-            Research papers, working prototypes, and public presentations.
-          </p>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">{subtitle}</p>
         </FadeIn>
 
         <FadeIn delay={0.1}>
@@ -122,6 +45,7 @@ export function SelectedOutputs() {
               const isActive = activeTab === tab.id
               return (
                 <motion.button
+                  type="button"
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`relative flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 shrink-0 ${
@@ -129,6 +53,8 @@ export function SelectedOutputs() {
                       ? "bg-primary/10 text-primary border border-primary/30"
                       : "bg-surface border border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
                   }`}
+                  aria-pressed={isActive}
+                  aria-label={`Show ${tab.label} tab`}
                 >
                   <Icon className="relative w-4 h-4" />
                   <span className="relative">{tab.label}</span>
@@ -146,20 +72,24 @@ export function SelectedOutputs() {
             {activeTab === "publications" && (
               <motion.div
                 key="publications"
+                data-gsap-stagger
                 className="space-y-3 sm:space-y-4"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {outputs.publications.map((pub, i) => (
+                {publications.map((pub, i) => (
                   <motion.button
+                    type="button"
                     key={i}
+                    data-gsap-item
                     onClick={() => setSelectedPub(pub)}
                     className="group w-full text-left flex items-start justify-between p-4 sm:p-6 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 ease-out hover:border-primary/30 hover:bg-surface/50"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
+                    aria-label={`Open publication details: ${pub.title}`}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
@@ -204,6 +134,7 @@ export function SelectedOutputs() {
                   <span className="text-xs sm:text-sm text-muted-foreground mr-1 sm:mr-2">Filter:</span>
                   {allTech.map((tech) => (
                     <motion.button
+                      type="button"
                       key={tech}
                       onClick={() => setFilter(filter === tech ? null : tech)}
                       className={`px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs rounded-full transition-all ${
@@ -211,21 +142,24 @@ export function SelectedOutputs() {
                           ? "bg-primary text-primary-foreground"
                           : "bg-surface text-muted-foreground hover:text-foreground hover:bg-surface/80"
                       }`}
+                      aria-pressed={filter === tech}
+                      aria-label={`Filter prototypes by ${tech}`}
                     >
                       {tech}
                     </motion.button>
                   ))}
                   {filter && (
-                    <button onClick={() => setFilter(null)} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
+                    <button type="button" onClick={() => setFilter(null)} className="p-1 text-muted-foreground hover:text-foreground transition-colors" aria-label="Clear prototype technology filter">
                       <X className="w-3 h-3" />
                     </button>
                   )}
                 </div>
 
-                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4" data-gsap-stagger>
                   {filteredPrototypes.map((proto, i) => (
                     <motion.div
                       key={proto.title}
+                      data-gsap-item
                       className="group relative p-4 sm:p-6 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 ease-out hover:border-primary/30 overflow-hidden"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -233,15 +167,21 @@ export function SelectedOutputs() {
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative z-10">
+                        {proto.imageUrl ? (
+                          <div className="mb-3 -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 h-28 overflow-hidden rounded-t-xl border-b border-border/30">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={proto.imageUrl} alt="" className="h-full w-full object-cover" />
+                          </div>
+                        ) : null}
                         <div className="flex items-start justify-between mb-3 sm:mb-4">
                           <div className="p-1.5 sm:p-2 rounded-lg bg-surface border border-border/50 group-hover:border-primary/30 transition-colors">
                             <Code2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                           </div>
                           <div className="flex gap-2">
-                            <a href={proto.github} className="p-1 text-muted-foreground hover:text-foreground transition-colors sm:opacity-0 sm:group-hover:opacity-100">
+                            <a href={proto.github} className="p-1 text-muted-foreground hover:text-foreground transition-colors sm:opacity-0 sm:group-hover:opacity-100" aria-label={`View GitHub repository for ${proto.title}`}>
                               <Github className="w-4 h-4" />
                             </a>
-                            <a href={proto.link} className="p-1 text-muted-foreground hover:text-foreground transition-colors sm:opacity-0 sm:group-hover:opacity-100">
+                            <a href={proto.link} className="p-1 text-muted-foreground hover:text-foreground transition-colors sm:opacity-0 sm:group-hover:opacity-100" aria-label={`Open external link for ${proto.title}`}>
                               <ArrowUpRight className="w-4 h-4" />
                             </a>
                           </div>
@@ -261,6 +201,7 @@ export function SelectedOutputs() {
                         <div className="flex flex-wrap gap-1.5">
                           {proto.tech.map((t) => (
                             <button
+                              type="button"
                               key={t}
                               onClick={() => setFilter(filter === t ? null : t)}
                               className={`px-2 py-0.5 text-[11px] rounded transition-colors cursor-pointer ${
@@ -268,6 +209,8 @@ export function SelectedOutputs() {
                                   ? "bg-primary text-primary-foreground"
                                   : "bg-surface text-muted-foreground hover:bg-primary/10 hover:text-primary"
                               }`}
+                              aria-pressed={filter === t}
+                              aria-label={`Filter prototypes by ${t}`}
                             >
                               {t}
                             </button>
@@ -283,15 +226,17 @@ export function SelectedOutputs() {
             {activeTab === "talks" && (
               <motion.div
                 key="talks"
+                data-gsap-stagger
                 className="space-y-3 sm:space-y-4"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {outputs.talks.map((talk, i) => (
+                {talks.map((talk, i) => (
                   <motion.div
                     key={i}
+                    data-gsap-item
                     className="group flex flex-col sm:flex-row sm:items-start sm:justify-between p-4 sm:p-6 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 ease-out hover:border-primary/30 hover:bg-surface/50 gap-3"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -307,11 +252,11 @@ export function SelectedOutputs() {
                           {talk.event} &bull; {talk.date}
                         </p>
                         <div className="flex items-center gap-3 mt-3">
-                          <a href={talk.videoUrl} className="flex items-center gap-1 px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs hover:bg-primary/20 transition-colors">
+                          <a href={talk.videoUrl} className="flex items-center gap-1 px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs hover:bg-primary/20 transition-colors" aria-label={`Watch video: ${talk.title}`}>
                             <Play className="w-3 h-3" />
                             Watch
                           </a>
-                          <a href={talk.slides} className="flex items-center gap-1 px-3 py-1 rounded-lg bg-surface text-muted-foreground text-xs hover:text-foreground transition-colors">
+                          <a href={talk.slides} className="flex items-center gap-1 px-3 py-1 rounded-lg bg-surface text-muted-foreground text-xs hover:text-foreground transition-colors" aria-label={`Open slides for ${talk.title}`}>
                             <FileText className="w-3 h-3" />
                             Slides
                           </a>
@@ -330,6 +275,12 @@ export function SelectedOutputs() {
       <InteractiveModal isOpen={!!selectedPub} onClose={() => setSelectedPub(null)} title={selectedPub?.title || ""}>
         {selectedPub && (
           <div className="space-y-5 sm:space-y-6">
+            {selectedPub.imageUrl ? (
+              <div className="rounded-xl overflow-hidden border border-border/40">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={selectedPub.imageUrl} alt="" className="w-full max-h-56 object-cover" />
+              </div>
+            ) : null}
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
               <span className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm font-medium rounded-lg bg-primary/10 text-primary">{selectedPub.type}</span>
               <span className="text-xs sm:text-sm text-muted-foreground">{selectedPub.venue}</span>
@@ -341,7 +292,7 @@ export function SelectedOutputs() {
             </div>
             <div className="flex flex-wrap gap-2 sm:gap-3 pt-4 border-t border-border/30">
               {selectedPub.link && selectedPub.link !== "#" && (
-                <a href={selectedPub.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:bg-primary/90 transition-colors">
+                <a href={selectedPub.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:bg-primary/90 transition-colors" aria-label={`Read paper PDF: ${selectedPub.title}`}>
                   <ExternalLink className="w-4 h-4" />
                   Read Paper (PDF)
                 </a>
