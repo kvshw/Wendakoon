@@ -105,10 +105,228 @@ const responses: Record<string, { text: string; followUps?: string[] }> = {
     text: "You can reach me at:\n\n📧 **University:** kavishwa.wendakoonmudiyanselage@oulu.fi\n📧 **Personal:** kaveebhashiofficial@gmail.com\n📍 **Location:** Oulu, Finland\n🔗 **LinkedIn:** linkedin.com/in/kavishwa-wendakoon\n\nI'm open to research collaboration, industry opportunities, and conversations around AI, software engineering, digital health, and intelligent systems.",
     followUps: ["Send an email", "View LinkedIn", "View full portfolio"],
   },
-  default: {
-    text: "That's a great question. I usually talk about my background, projects, technical skills, research, industry experience, and collaboration opportunities. Feel free to ask me about my work, AI and health research, tech stack, or how to reach me at kavishwa.wendakoonmudiyanselage@oulu.fi or kaveebhashiofficial@gmail.com.",
+}
+
+type ResponseEntry = { text: string; followUps?: string[] }
+
+/** Routed by intent, not by user exact string — kept separate so keys are never matched as user input. */
+const edgeResponses: Record<
+  "unknown" | "offTopic" | "playfulBoundary" | "thanksClosure",
+  ResponseEntry
+> = {
+  unknown: {
+    text: "This assistant only covers portfolio Q&A — it’s scripted, not a general chatbot — so I don’t have a tailored answer for that. I *can* help with my background, projects, skills, research, and how to reach me:\n\n📧 **kavishwa.wendakoonmudiyanselage@oulu.fi** · **kaveebhashiofficial@gmail.com**",
     followUps: ["Tell me about yourself", "Show me your projects", "What are your skills?"],
   },
+  offTopic: {
+    text: "General chat isn’t in scope here — I’m a small pre-written guide for this portfolio. If something’s about my work or how to connect, pick a prompt below or ask in your own words.",
+    followUps: ["Tell me about yourself", "Show me your projects", "Contact you"],
+  },
+  playfulBoundary: {
+    text: "I’d like to keep this space respectful and on-topic. I’m happy to chat about my research, projects, skills, or how to get in touch.",
+    followUps: ["Tell me about yourself", "Show me your projects", "Contact you"],
+  },
+  thanksClosure: {
+    text: "You’re welcome. If you want to explore more:",
+    followUps: ["Tell me about yourself", "Show me your projects", "What are your skills?"],
+  },
+}
+
+/** Lowercase, collapse punctuation to spaces, normalize whitespace — for pattern matching only. */
+function normalize(input: string): string {
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s'-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+function matchesProvocative(normalized: string, lowerText: string): boolean {
+  const insultStems = [
+    "stupid",
+    "idiot",
+    "dumb",
+    "moron",
+    "loser",
+    "pathetic",
+    "useless",
+    "trash",
+    "garbage",
+    "suck",
+    "worst",
+    "hate you",
+    "shut up",
+    "go away",
+    "screw you",
+    "fuck",
+    "damn you",
+  ]
+  if (insultStems.some((w) => normalized.includes(w))) return true
+  if (
+    /\b(you'?re|you are|u\s+r|ur)\s+crazy\b/.test(lowerText) ||
+    /\bcrazy\s*[!.]+\s*$/.test(lowerText) ||
+    /^crazy\s*[!.]*$/.test(lowerText.trim())
+  ) {
+    return true
+  }
+  if (/\bcrazy\s+(good|smart|cool|impressive|nice|talented)\b/i.test(lowerText)) return false
+  if (/\bcrazy\b/.test(normalized) && normalized.split(/\s+/).length <= 8) {
+    if (normalized.includes("crazy about") || normalized.includes("not crazy")) return false
+    return true
+  }
+  return false
+}
+
+function matchesOffTopic(normalized: string, lowerText: string): boolean {
+  if (
+    /\bweather\b/.test(normalized) ||
+    /\bjoke\b/.test(normalized) ||
+    /\bmeaning of life\b/.test(normalized) ||
+    /\bplay\s+a\s+game\b/.test(normalized) ||
+    /\btic[\s-]?tac[\s-]?toe\b/.test(normalized)
+  ) {
+    return true
+  }
+  if (/^how\s+are\s+you(\s+doing)?\s*[!?.]*$/i.test(lowerText.trim())) return true
+  if (/^how\s+r\s+u\s*[!?.]*$/i.test(lowerText.trim())) return true
+  if (/^(what'?s|whats)\s+up\s*[!?.]*$/i.test(lowerText.trim())) return true
+  if (/^(sup)\s*[!.?]*$/i.test(lowerText.trim())) return true
+  return false
+}
+
+function matchesThanks(normalized: string, lowerText: string): boolean {
+  if (/^(thanks|thank you|thx|ty|tysm|much appreciated)\b/i.test(lowerText.trim())) return true
+  if (/thank(s|\s+you)/i.test(lowerText) && lowerText.length < 50) return true
+  if (/^(cool|nice|great|awesome)\s*!*$/i.test(lowerText.trim())) return true
+  if (/^(appreciate it|much love)\s*!*$/i.test(lowerText.trim())) return true
+  if (normalized === "cheers" || normalized === "kudos") return true
+  return false
+}
+
+function matchesShortGreeting(normalized: string, lowerText: string): boolean {
+  const words = normalized.split(/\s+/).filter(Boolean)
+  if (words.length > 4) return false
+  return /^(hi|hello|hey|howdy|greetings)(\s+there)?\s*!*$/.test(lowerText.trim()) ||
+    /^good\s+(morning|afternoon|evening)\s*!*$/.test(lowerText.trim())
+}
+
+function matchKeywordResponse(lowerText: string): ResponseEntry | null {
+  if (lowerText.includes("about") || lowerText.includes("yourself") || lowerText.includes("who")) {
+    return responses.me
+  }
+  if (
+    lowerText.includes("project") ||
+    lowerText.includes("work") ||
+    lowerText.includes("built") ||
+    lowerText.includes("portfolio")
+  ) {
+    return responses.projects
+  }
+  if (
+    lowerText.includes("skill") ||
+    lowerText.includes("tech") ||
+    lowerText.includes("stack") ||
+    lowerText.includes("language")
+  ) {
+    return responses.skills
+  }
+  if (
+    lowerText.includes("research") ||
+    lowerText.includes("phd") ||
+    lowerText.includes("doctoral") ||
+    lowerText.includes("ai") ||
+    lowerText.includes("health")
+  ) {
+    return responses.research
+  }
+  if (
+    lowerText.includes("contact") ||
+    lowerText.includes("email") ||
+    lowerText.includes("reach") ||
+    lowerText.includes("hire") ||
+    lowerText.includes("collaborate")
+  ) {
+    return responses.contact
+  }
+  if (lowerText.includes("experience") || lowerText.includes("industry") || lowerText.includes("informatics")) {
+    return responses["Tell me about your industry experience"]
+  }
+  if (
+    lowerText.includes("oulu") ||
+    lowerText.includes("finland") ||
+    lowerText.includes("location") ||
+    lowerText.includes("based") ||
+    lowerText.includes("live")
+  ) {
+    return responses["Where are you based?"]
+  }
+  if (lowerText.includes("pediatric") || lowerText.includes("children") || lowerText.includes("brain health")) {
+    return responses["Why pediatric health specifically?"]
+  }
+  if (lowerText.includes("federated")) {
+    return responses["What is federated learning?"]
+  }
+  if (
+    lowerText.includes("education") ||
+    lowerText.includes("degree") ||
+    lowerText.includes("university") ||
+    lowerText.includes("bachelor") ||
+    lowerText.includes("master")
+  ) {
+    return responses["Tell me about your education"]
+  }
+  if (lowerText.includes("relocat") || lowerText.includes("move")) {
+    return responses["Are you open to relocation?"]
+  }
+  if (lowerText.includes("collaborat") || lowerText.includes("partner")) {
+    return responses["Are you open to collaboration?"]
+  }
+  if (
+    lowerText.includes("slrcms") ||
+    lowerText.includes("readmission") ||
+    lowerText.includes("case management")
+  ) {
+    return responses["Tell me more about SLRCMS"]
+  }
+  if (lowerText.includes("strongest") || lowerText.includes("best skill") || lowerText.includes("superpower")) {
+    return responses["What's your strongest skill?"]
+  }
+  return null
+}
+
+function resolveResponse(trimmedInput: string): ResponseEntry {
+  const trimmed = trimmedInput.trim()
+  if (!trimmed) {
+    return edgeResponses.unknown
+  }
+
+  if (trimmed in responses) {
+    return responses[trimmed as keyof typeof responses]
+  }
+
+  const normalized = normalize(trimmed)
+  const lowerText = trimmed.toLowerCase()
+
+  if (matchesProvocative(normalized, lowerText)) {
+    return edgeResponses.playfulBoundary
+  }
+  if (matchesOffTopic(normalized, lowerText)) {
+    return edgeResponses.offTopic
+  }
+  if (matchesThanks(normalized, lowerText)) {
+    return edgeResponses.thanksClosure
+  }
+  if (matchesShortGreeting(normalized, lowerText)) {
+    return responses.greeting
+  }
+
+  const keywordHit = matchKeywordResponse(lowerText)
+  if (keywordHit) {
+    return keywordHit
+  }
+
+  return edgeResponses.unknown
 }
 
 type Message = {
@@ -188,51 +406,19 @@ export default function ChatPage() {
 
   const sendMessage = useCallback(
     (text: string) => {
-      if (!text.trim() || isTyping) return
+      const trimmed = text.trim()
+      if (!trimmed || isTyping) return
 
       const userMsg: Message = {
         id: Date.now().toString(),
         role: "user",
-        content: text.trim(),
+        content: trimmed,
       }
       setMessages((prev) => [...prev, userMsg])
       setInput("")
       setIsTyping(true)
 
-      const lowerText = text.trim().toLowerCase()
-      let response = responses.default
-
-      if (responses[text.trim()]) {
-        response = responses[text.trim()]
-      } else if (lowerText.includes("about") || lowerText.includes("yourself") || lowerText.includes("who")) {
-        response = responses.me
-      } else if (lowerText.includes("project") || lowerText.includes("work") || lowerText.includes("built") || lowerText.includes("portfolio")) {
-        response = responses.projects
-      } else if (lowerText.includes("skill") || lowerText.includes("tech") || lowerText.includes("stack") || lowerText.includes("language")) {
-        response = responses.skills
-      } else if (lowerText.includes("research") || lowerText.includes("phd") || lowerText.includes("doctoral") || lowerText.includes("ai") || lowerText.includes("health")) {
-        response = responses.research
-      } else if (lowerText.includes("contact") || lowerText.includes("email") || lowerText.includes("reach") || lowerText.includes("hire") || lowerText.includes("collaborate")) {
-        response = responses.contact
-      } else if (lowerText.includes("experience") || lowerText.includes("industry") || lowerText.includes("informatics")) {
-        response = responses["Tell me about your industry experience"]
-      } else if (lowerText.includes("oulu") || lowerText.includes("finland") || lowerText.includes("location") || lowerText.includes("based") || lowerText.includes("live")) {
-        response = responses["Where are you based?"]
-      } else if (lowerText.includes("pediatric") || lowerText.includes("children") || lowerText.includes("brain health")) {
-        response = responses["Why pediatric health specifically?"]
-      } else if (lowerText.includes("federated")) {
-        response = responses["What is federated learning?"]
-      } else if (lowerText.includes("education") || lowerText.includes("degree") || lowerText.includes("university") || lowerText.includes("bachelor") || lowerText.includes("master")) {
-        response = responses["Tell me about your education"]
-      } else if (lowerText.includes("relocat") || lowerText.includes("move")) {
-        response = responses["Are you open to relocation?"]
-      } else if (lowerText.includes("collaborat") || lowerText.includes("partner")) {
-        response = responses["Are you open to collaboration?"]
-      } else if (lowerText.includes("slrcms") || lowerText.includes("readmission") || lowerText.includes("case management")) {
-        response = responses["Tell me more about SLRCMS"]
-      } else if (lowerText.includes("strongest") || lowerText.includes("best skill") || lowerText.includes("superpower")) {
-        response = responses["What's your strongest skill?"]
-      }
+      const response = resolveResponse(trimmed)
 
       const delay = 400 + Math.min(response.text.length * 3, 1500)
 

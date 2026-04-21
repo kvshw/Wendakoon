@@ -18,7 +18,7 @@ const SITE_NODES = [
   { label: "CV", hint: "Experience, skills & timeline.", href: "/#cv" },
   { label: "Publications", hint: "Papers, talks & prototypes.", href: "/#outputs" },
   { label: "Contact", hint: "Email, form & collaboration.", href: "/#contact" },
-  { label: "Chat", hint: "Ask the AI assistant about my work.", href: "/chat" },
+  { label: "Chat", hint: "Ask the portfolio assistant about my work.", href: "/chat" },
 ] as const
 
 const NODE_COUNT = SITE_NODES.length
